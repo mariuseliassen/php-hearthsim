@@ -1,0 +1,29 @@
+{
+	"name": "mariuseliassen/php-hearthsim",
+	"description": "A PHP representation of Hearthstone (Blizzard game) for board analyze and statistics",
+	"license": "MIT",
+	"keywords": ["php", "hearthstone", "analyze", "game", "statistics", "game-theory"],
+	"authors": [
+		{
+			"name": "Marius Eliassen",
+			"email": "marius@exchange.no"
+		}
+	],
+
+	"require": {
+		"php": ">=5.5.9",
+		"symfony/event-dispatcher": "3.0.0"
+	},
+
+	"require-dev": {
+		"phpunit/phpunit": "4.3.*",
+	    "phpdocumentor/phpdocumentor": "2.*"
+	},
+
+	"autoload": {
+		"psr-0": {
+			"PHPHearthSim": "src/"
+		}
+	},
+	"minimum-stability": "stable"
+}
