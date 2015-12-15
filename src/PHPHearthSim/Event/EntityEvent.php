@@ -28,6 +28,13 @@ abstract class EntityEvent extends Event {
     const EVENT_ENTITY_CREATE = 'entity.create';
 
     /**
+     * Name of event called
+     * 
+     * @var string
+     */
+    protected $eventName;
+    
+    /**
      * Entity for event
      *
      * @var \PHPHearthSim\Model\Entity;
@@ -37,10 +44,21 @@ abstract class EntityEvent extends Event {
     /**
      * Construct new EntityEvent and set the entity
      *
+     * @param string $eventName
      * @param \PHPHearthSim\Model\Entity $entity
      */
-    public function __construct(Entity $entity) {
+    public function __construct($eventName, Entity $entity) {
+        $this->eventName = $eventName;
         $this->entity = $entity;
+    }
+    
+    /**
+     * Get event name
+     * 
+     * @return string
+     */
+    public function getEventName() {
+        return $this->eventName;
     }
 
     /**

@@ -25,7 +25,7 @@ class EntityCreateEvent extends EntityEvent {
      * @param \PHPHearthSim\Model\Entity $entity
      */
     public function __construct(Entity $entity) {
-        parent::__construct($entity);
+        parent::__construct(EntityEvent::EVENT_ENTITY_CREATE, $entity);
     }
 
 }

@@ -58,7 +58,7 @@ class EventTest extends \PHPUnit_Framework_TestCase
         $entity0002 = new ZombieChow(['board' => $this->board]);
 
         // Make sure that first entity has received signal on the second entity creation
-        $this->assertEquals($entity0001->getLastSignalReceived()['signal'], 'onEntityCreate');
+        $this->assertEquals($entity0001->getLastSignalReceived()['signal'], EntityEvent::EVENT_ENTITY_CREATE);
         $this->assertEquals($entity0001->getLastSignalReceived()['event']->getEntity()->getId(), $entity0002->getId());
 
         // Second entity should not have received any notifications

@@ -10,6 +10,7 @@
 namespace PHPHearthSim\Event;
 
 use PHPHearthSim\Model\Entity;
+use PHPHearthSim\Event\Entity\EntityCreateEvent;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 
 /**
@@ -38,7 +39,7 @@ class EntitySubscriber implements EventSubscriberInterface {
         $events = [];
 
         // All entities should be notified about entity creation
-        $events[EntityEvent::EVENT_ENTITY_CREATE] = ['onEntityCreate', 0];
+        $events[EntityEvent::EVENT_ENTITY_CREATE] = ['handleEvent', 0];
 
         // TODO: check if has deathrattle, battlecry, etc...
 
@@ -56,25 +57,35 @@ class EntitySubscriber implements EventSubscriberInterface {
 
         return $this;
     }
-
+    
     /**
-     * Event handler for entity create
-     *
-     * @param \PHPHearthSim\Event\EntityEvent $event
-     * @return void
+     * Handle incoming event
+     * 
+     * @param EntityEvent $event
      */
-    public function onEntityCreate(EntityEvent $event) {
+    public function handleEvent(EntityEvent $event) {
         $eventEntity = $event->getEntity();
-
-        // No point in signaling myself
+        $eventName = $event->getEventName();
+        
+        // Make sure entity is listening to the event
+        if (!$this->entity->listenTo($eventName)) {
+            return;
+        }
+        
+        // Entity create should not signal itself
         if ($eventEntity->getId() == $this->entity->getId()) {
             return;
         }
-
-        // Trigger handler
-        $this->entity->onEntityCreateEvent($event);
-        // Update last signal
-        $this->entity->setLastSignalReceived('onEntityCreate', $event);
+        
+        // See what event it is and call correct handler
+        switch($eventName) {
+            case EntityEvent::EVENT_ENTITY_CREATE:
+                $this->entity->onEntityCreateEvent($event);
+                break;
+        }
+        
+        // Update last signal received
+        $this->entity->setLastSignalReceived($eventName, $event);
     }
 
 }
