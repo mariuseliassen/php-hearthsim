@@ -10,6 +10,7 @@
 namespace PHPHearthSim\Model;
 
 use PHPHearthSim\Model\Deck;
+use PHPHearthSim\Model\Hero;
 
 /**
  * This class is responsible to hold player name, deck, hero information (health, weapon, etc).
@@ -19,7 +20,7 @@ use PHPHearthSim\Model\Deck;
  * @property string $name set/get the player name
  * @property \PHPHearthSim\Model\Board $board set/get the board reference
  * @property \PHPHearthSim\Model\Deck $deck set/get the player deck
- * @property \PHPHearthSim\Model\Entity $hero set/get the player hero
+ * @property \PHPHearthSim\Model\Hero $hero set/get the player hero
  */
 class Player {
 
@@ -54,7 +55,7 @@ class Player {
     /**
      * The player hero
      *
-     * @var \PHPHearthSim\Model\Entity
+     * @var \PHPHearthSim\Model\Hero
      */
     protected $hero;
 
@@ -131,7 +132,7 @@ class Player {
     /**
      * Set the player deck
      *
-     * @param \PHPHearthSim\ModelDeck $deck
+     * @param \PHPHearthSim\Model\Deck $deck
      * @return \PHPHearthSim\Model\Player
      */
     public function setDeck(Deck $deck) {
@@ -147,6 +148,28 @@ class Player {
      */
     public function getDeck() {
         return $this->deck;
+    }
+
+
+    /**
+     * Set the player hero
+     *
+     * @param \PHPHearthSim\Model\Hero $hero
+     * @return \PHPHearthSim\Model\Player
+     */
+    public function setHero(Hero $hero) {
+        $this->hero = $hero;
+
+        return $this;
+    }
+
+    /**
+     * Get the player hero
+     *
+     * @return \PHPHearthSim\Model\Hero
+     */
+    public function getHero() {
+        return $this->hero;
     }
 
     /**
@@ -165,5 +188,15 @@ class Player {
      */
     public function endTurn() {
         return $this;
+    }
+
+    /**
+     * Method to adjust healing values
+     *
+     * @param number $value
+     * @return number
+     */
+    public function adjustHealValue($value) {
+        return $value;
     }
 }
