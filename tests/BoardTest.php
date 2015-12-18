@@ -7,31 +7,13 @@
  * @copyright   Copyright (C) 2015 Switchback
  * @date: 13 12 2015
  */
+namespace PHPHearthSim\Tests;
+
 use PHPHearthSim\Model\Board;
 use PHPHearthSim\Model\Player;
 
-class BoardTest extends \PHPUnit_Framework_TestCase
+class BoardTest extends TestCase
 {
-
-    /** @var \PHPHearthSim\Model\Board */
-    protected $board;
-
-    /**
-     * Setup stuff
-     */
-    protected function setUp() {
-        // Create players
-        $me = new Player();
-        $me->setId(1);
-        $me->setName('Switchback');
-
-        $opponent = new Player();
-        $opponent->setId(2);
-        $opponent->setName('SMOrcThaBork');
-
-        // Create board
-        $this->board = new Board($me, $opponent);
-    }
 
     /**
      * Tests the basic methods of Entity class
