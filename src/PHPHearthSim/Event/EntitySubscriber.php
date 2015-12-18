@@ -41,7 +41,11 @@ class EntitySubscriber implements EventSubscriberInterface {
         // All entities should be notified about entity creation
         $events[EntityEvent::EVENT_ENTITY_CREATE] = ['handleEvent', 0];
 
-        // TODO: check if has deathrattle, battlecry, etc...
+        // TODO: We dont have entity available here, must be a better way.... ??
+        // Idea #1) Maybe create a seperate subscriber type for each case, like DeathRattleSubscriber, BattlecrySubscriber
+        // Idea #2) More flexible way is to maybe have each entity have its own subcriber method
+        //          and just add listeners instead for each entity, instead of having a subscriber class
+
 
         return $events;
     }
@@ -57,33 +61,33 @@ class EntitySubscriber implements EventSubscriberInterface {
 
         return $this;
     }
-    
+
     /**
      * Handle incoming event
-     * 
+     *
      * @param EntityEvent $event
      */
     public function handleEvent(EntityEvent $event) {
         $eventEntity = $event->getEntity();
         $eventName = $event->getEventName();
-        
+
         // Make sure entity is listening to the event
         if (!$this->entity->listenTo($eventName)) {
             return;
         }
-        
+
         // Entity create should not signal itself
         if ($eventEntity->getId() == $this->entity->getId()) {
             return;
         }
-        
+
         // See what event it is and call correct handler
         switch($eventName) {
             case EntityEvent::EVENT_ENTITY_CREATE:
                 $this->entity->onEntityCreateEvent($event);
                 break;
         }
-        
+
         // Update last signal received
         $this->entity->setLastSignalReceived($eventName, $event);
     }

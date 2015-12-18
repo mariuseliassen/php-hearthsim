@@ -19,9 +19,16 @@ use PHPHearthSim\Event\Entity\EntityCreateEvent;
 abstract class EntityEvents {
 
     /**
+     * Constructor
+     */
+    public function __construct() {
+
+    }
+
+    /**
      * Event for handling when other entites are created
      *
-     * @param \PHPHearthSim\Event\EntityEvent $event
+     * @param \PHPHearthSim\Event\EntityCreateEvent $event
      * @return \PHPHearthSim\Model\EntityEvents;
      */
     public function onEntityCreateEvent(EntityCreateEvent $event) {

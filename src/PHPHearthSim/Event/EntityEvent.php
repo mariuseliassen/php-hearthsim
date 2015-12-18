@@ -28,12 +28,40 @@ abstract class EntityEvent extends Event {
     const EVENT_ENTITY_CREATE = 'entity.create';
 
     /**
+     * Constant for entity deathrattle event
+     *
+     * @var string
+     */
+    const EVENT_ENTITY_DEATHRATTLE = 'entity.deathrattle';
+
+    /**
+     * Constant for entity take damage event
+     *
+     * @var string
+     */
+    const EVENT_ENTITY_TAKE_DAMAGE = 'entity.take_damage';
+
+    /**
+     * Constant for entity receive heal event
+     *
+     * @var string
+     */
+    const EVENT_ENTITY_RECEIVE_HEAL = 'entity.receive_heal';
+
+    /**
      * Name of event called
-     * 
+     *
      * @var string
      */
     protected $eventName;
-    
+
+    /**
+     * Entity data
+     *
+     * @var mixed
+     */
+    protected $eventData;
+
     /**
      * Entity for event
      *
@@ -45,21 +73,33 @@ abstract class EntityEvent extends Event {
      * Construct new EntityEvent and set the entity
      *
      * @param string $eventName
+     * @param mixed $eventData
      * @param \PHPHearthSim\Model\Entity $entity
      */
-    public function __construct($eventName, Entity $entity) {
+    public function __construct($eventName, $eventData = null, Entity $entity = null) {
         $this->eventName = $eventName;
+        $this->eventData = $eventData;
         $this->entity = $entity;
     }
-    
+
     /**
      * Get event name
-     * 
+     *
      * @return string
      */
     public function getEventName() {
         return $this->eventName;
     }
+
+    /**
+     * Get event data
+     *
+     * @return mixed
+     */
+    public function getEventData() {
+        return $this->eventData;
+    }
+
 
     /**
      * Get the entity
