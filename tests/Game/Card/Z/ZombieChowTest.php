@@ -43,10 +43,13 @@ class ZombieChowTest extends TestCase {
         // Hero take some damage, from 30 (base) - 10 = 20.
         $this->emptyBoard->getOpponent()->getHero()->takeDamage(10);
 
+        // Assert that enemy hero health is 20
+        $this->assertEquals(20, $this->emptyBoard->getOpponent()->getHero()->getHealth());
+
         // Destroy minion, triggering the deathrattle in the same process
         $this->entity->destroy();
 
-        // Assert that opponent health is 5 more == 25
+        // Assert that enemy hero health is 5 more == 25
         $this->assertEquals(25, $this->emptyBoard->getOpponent()->getHero()->getHealth());
 
     }
