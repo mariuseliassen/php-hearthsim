@@ -54,7 +54,7 @@ class ZombieChow extends Entity implements DeathrattleInterface {
      */
     public function deathrattle() {
         // We pass it to adjustHealValue to support interactions like Auchenai Soulpriest
-        $this->getEnemyHero()->receiveHeal($this->getOwner()->adjustHealValue(5));
+        $this->getEnemyHero()->healFor($this->getOwner()->adjustHealValue(5));
     }
 
 }

@@ -553,13 +553,13 @@ abstract class Entity extends EntityEvents implements EntityInterface {
     }
 
     /**
-     * When the entity receives healing
+     * Trigger healing on entity
      *
      * @param number $amount The amount of healing received
      * @param \PHPHearthSim\Model\Entity $from The entity that did the healing to us
      * @return \PHPHearthSim\Model\Entity
      */
-    public function receiveHeal($amount = 0, Entity $from = null) {
+    public function healFor($amount = 0, Entity $from = null) {
         // Just make sure damage is a positive value so we don't get any wierd interactions
         if ($amount < 0) {
             $amount = 0;
