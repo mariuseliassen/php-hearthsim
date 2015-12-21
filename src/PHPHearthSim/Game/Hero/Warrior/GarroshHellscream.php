@@ -32,6 +32,11 @@ class GarroshHellscream extends Hero {
     /** {@inheritDoc} */
     protected $baseHealth = 30;
 
+    /**
+     * Constructor
+     *
+     * @param array $options
+     */
     public function __construct(array $options = []) {
         // Warrior have the "Armor Up!" hero power. Gain 2 armor
         $options['heroPower'] = new ArmorUp();

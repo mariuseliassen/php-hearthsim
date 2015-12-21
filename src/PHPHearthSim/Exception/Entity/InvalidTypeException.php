@@ -7,13 +7,13 @@
  * @copyright   Copyright (C) 2015 Switchback
  * @date: 13 12 2015
  */
-namespace PHPHearthSim\Exception;
+namespace PHPHearthSim\Exception\Entity;
 
 /**
- * Exception for missing type trait
+ * Exception for invalid entity type
  *
- * @class MissingTypeTraitException
+ * @class InvalidTypeException
  */
-class MissingTypeTraitException extends \Exception {
+class InvalidTypeException extends \Exception {
 
 }

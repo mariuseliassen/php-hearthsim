@@ -9,7 +9,7 @@
  */
 namespace PHPHearthSim\Model;
 
-use PHPHearthSim\Entity\Traits\Rarity\HeroPowerRarityTrait;
+use PHPHearthSim\Model\Entity;
 
 /**
  * Hero power.
@@ -18,7 +18,9 @@ use PHPHearthSim\Entity\Traits\Rarity\HeroPowerRarityTrait;
  * @class HeroPower
  */
 abstract class HeroPower extends Entity {
-    use HeroPowerRarityTrait;
+
+    /** {@inheritDoc} */
+    protected $rarity = Entity::RARITY_UNIQUE;
 
     /**
      * Constructor

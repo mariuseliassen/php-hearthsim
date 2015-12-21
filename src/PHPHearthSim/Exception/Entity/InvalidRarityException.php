@@ -7,13 +7,13 @@
  * @copyright   Copyright (C) 2015 Switchback
  * @date: 13 12 2015
  */
-namespace PHPHearthSim\Exception;
+namespace PHPHearthSim\Exception\Entity;
 
 /**
- * Exception for invalid event signal to entity
+ * Exception for invalid entity rarity
  *
- * @class InvalidEntityEventException
+ * @class InvalidRarityException
  */
-class InvalidEntityEventException extends \Exception {
+class InvalidRarityException extends \Exception {
 
 }

@@ -9,8 +9,7 @@
  */
 namespace PHPHearthSim\Model;
 
-use PHPHearthSim\Exception\InvalidEntityEventException;
-use PHPHearthSim\Exception\MissingTypeTraitException;
+use PHPHearthSim\Exception\Entity\InvalidEventException;
 
 use PHPHearthSim\Model\Player;
 use PHPHearthSim\Model\EntityAdjustment;
@@ -43,6 +42,20 @@ use PHPHearthSim\Event\Entity\EntityTakeDamageEvent;
  * @property-read int $attack get entity attack
  */
 abstract class Entity extends EntityEvents implements EntityInterface {
+
+    /**
+     * Basic rarity
+     *
+     * @var string
+     */
+    const RARITY_BASIC = 'Basic';
+
+    /**
+     * Unique rarity
+     *
+     * @var string
+     */
+    const RARITY_UNIQUE = 'Unique';
 
     /**
      * Reference to the game board (for events)
@@ -184,8 +197,6 @@ abstract class Entity extends EntityEvents implements EntityInterface {
             $this->owner = $options['owner'];
         }
 
-        // Assign rarity from trait
-        $this->rarity = $this->getRarityFromTrait();
         // Set up subscription to events
         $this->subscribe();
         // Signal that we were created
@@ -296,6 +307,7 @@ abstract class Entity extends EntityEvents implements EntityInterface {
      * @param string $eventName
      * @param mixed $eventData
      *
+     * @throws \PHPHearthSim\Exception\Entity\InvalidEventException when event name is not recognized
      * @return \PHPHearthSim\Model\Entity
      */
     public function emit($eventName, $eventData = null) {
@@ -321,7 +333,7 @@ abstract class Entity extends EntityEvents implements EntityInterface {
 
                 // Invalid event
                 default:
-                    throw new InvalidEntityEventException($eventName . ' is not a valid entity event signal');
+                    throw new InvalidEventException($eventName . ' is not a valid entity event signal');
                     break;
             }
 
@@ -595,15 +607,6 @@ abstract class Entity extends EntityEvents implements EntityInterface {
      */
     public function silence() {
 
-    }
-
-    /**
-     * Get the rarity from trait
-     *
-     * @throws \PHPHearthSim\Exception\MissingRarirytTraitException When entity is not initialized with a Rarity trait
-     */
-    protected function getRarityFromTrait()  {
-        throw new MissingTypeTraitException('Entity is missing rarity trait');
     }
 
 }

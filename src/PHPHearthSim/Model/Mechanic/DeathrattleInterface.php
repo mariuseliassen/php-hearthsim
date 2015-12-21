@@ -9,8 +9,18 @@
  */
 namespace PHPHearthSim\Model\Mechanic;
 
+/**
+ * Interface for Deathrattle
+ *
+ * @author Marius
+ * @class DeathrattleInterface
+ *
+ */
 interface DeathrattleInterface {
 
+    /**
+     * Trigger for deathrattle
+     */
     public function deathrattle();
 
 }
