@@ -23,7 +23,7 @@ class EventTest extends TestCase
      */
     public function testInvalidEntityEventException()
     {
-        $this->setExpectedException('PHPHearthSim\Exception\InvalidEntityEventException');
+        $this->setExpectedException('PHPHearthSim\Exception\Entity\InvalidEventException');
         // First entity should not notify anything
         $entity = new ZombieChow(['board' => $this->board]);
 
