@@ -48,7 +48,15 @@ abstract class Entity extends EntityEvents implements EntityInterface {
      *
      * @var string
      */
-    const RARITY_BASIC = 'Basic';
+    const RARITY_COMMON = 'Common';
+
+    /**
+     * Basic rarity
+     *
+     * @var string
+     */
+    const RARITY_RARE = 'Rare';
+
 
     /**
      * Unique rarity

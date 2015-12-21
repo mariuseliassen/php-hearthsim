@@ -21,7 +21,7 @@ use PHPHearthSim\Model\Mechanic\DeathrattleInterface;
 class ZombieChow extends Entity implements DeathrattleInterface {
 
     /** {@inheritDoc} */
-    protected $rarity = Entity::RARITY_BASIC;
+    protected $rarity = Entity::RARITY_COMMON;
 
     /** {@inheritDoc} */
     protected $baseCost = 1;

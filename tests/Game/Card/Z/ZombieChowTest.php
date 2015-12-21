@@ -9,6 +9,7 @@
  */
 namespace PHPHearthSim\Tests\Game\Card\Z;
 
+use PHPHearthSim\Model\Entity;
 use PHPHearthSim\Game\Card\Z\ZombieChow;
 use PHPHearthSim\Tests\TestCase;
 
@@ -33,7 +34,7 @@ class ZombieChowTest extends TestCase {
         $this->assertEquals(2, $this->entity->getBaseAttack());
         $this->assertEquals(3, $this->entity->getBaseHealth());
         // Test rarity
-        $this->assertEquals('Basic', $this->entity->getRarity());
+        $this->assertEquals(Entity::RARITY_COMMON, $this->entity->getRarity());
     }
 
     public function testDeathrattle() {
