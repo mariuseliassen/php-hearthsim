@@ -20,7 +20,7 @@ use PHPHearthSim\Model\Mechanic\Deathrattle;
  *
  * @class ZombieChow
  */
-class ZombieChow extends Minion implements Neutral, Deathrattle {
+class ZombieChow extends Entity implements Neutral, Minion, Deathrattle {
 
     /** {@inheritDoc} */
     protected $rarity = Entity::RARITY_COMMON;

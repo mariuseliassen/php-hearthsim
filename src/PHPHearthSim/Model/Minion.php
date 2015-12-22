@@ -13,10 +13,10 @@ use PHPHearthSim\Model\Entity;
 
 /**
  * Minion.
- * Base class for a minion. Really just here to help check instanceof in other places of the application.
+ * Interface for minion. Really just here to help check instanceof in other places of the application.
  *
  * @class Minion
  */
-abstract class Minion extends Entity {
+interface Minion {
 
 }
