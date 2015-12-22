@@ -9,16 +9,18 @@
  */
 namespace PHPHearthSim\Game\Card\Z;
 
+use PHPHearthSim\Model\EntityClass\Neutral;
+use PHPHearthSim\Model\Minion;
 use PHPHearthSim\Model\Entity;
-use PHPHearthSim\Model\Mechanic\DeathrattleInterface;
+use PHPHearthSim\Model\Mechanic\Deathrattle;
 
 /**
  * Zombie Chow
- * Basic unit card
+ * Common minion
  *
  * @class ZombieChow
  */
-class ZombieChow extends Entity implements DeathrattleInterface {
+class ZombieChow extends Minion implements Neutral, Deathrattle {
 
     /** {@inheritDoc} */
     protected $rarity = Entity::RARITY_COMMON;
@@ -40,7 +42,7 @@ class ZombieChow extends Entity implements DeathrattleInterface {
      * Restore 5 Health to the enemy hero.
      */
     public function deathrattle() {
-        // We pass it to adjustHealValue to support interactions like Auchenai Soulpriest
+        // We pass it to adjustHealValue to support interactions like Professor Velen
         $this->getEnemyHero()->healFor($this->getOwner()->adjustHealValue(5));
     }
 

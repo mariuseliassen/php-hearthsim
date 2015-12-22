@@ -26,6 +26,10 @@ class ZombieChowTest extends TestCase {
     }
 
     public function testCardData() {
+        // Test Minion instance
+        $this->assertInstanceOf('PHPHearthSim\\Model\\Minion', $this->entity);
+        // Test Neutral instance
+        $this->assertInstanceOf('PHPHearthSim\\Model\\EntityClass\\Neutral', $this->entity);
         // Test name
         $this->assertEquals('Zombie Chow', $this->entity->getName());
         // Test cost
@@ -39,7 +43,7 @@ class ZombieChowTest extends TestCase {
 
     public function testDeathrattle() {
         // Test deathrattle interface
-        $this->assertInstanceOf('PHPHearthSim\\Model\\Mechanic\\DeathrattleInterface', $this->entity);
+        $this->assertInstanceOf('PHPHearthSim\\Model\\Mechanic\\Deathrattle', $this->entity);
 
         // Hero take some damage, from 30 (base) - 10 = 20.
         $this->emptyBoard->getOpponent()->getHero()->takeDamage(10);
