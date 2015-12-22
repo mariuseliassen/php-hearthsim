@@ -16,7 +16,7 @@ use PHPHearthSim\Model\EntityAdjustment;
 use PHPHearthSim\Model\Board;
 use PHPHearthSim\Event\EntitySubscriber;
 use PHPHearthSim\Event\EntityEvent;
-use PHPHearthSim\Model\Mechanic\DeathrattleInterface;
+use PHPHearthSim\Model\Mechanic\Deathrattle;
 
 use PHPHearthSim\Event\Entity\EntityCreateEvent;
 use PHPHearthSim\Event\Entity\EntityDeathrattleEvent;
@@ -116,7 +116,7 @@ abstract class Entity extends EntityEvents implements EntityInterface {
     ];
 
     /**
-     * Entity rarity
+     * Entity rarity. See Entity::RARITY_ constants
      *
      * @var string
      */
@@ -542,12 +542,23 @@ abstract class Entity extends EntityEvents implements EntityInterface {
 
     }
 
+
     /**
      * temporary
      * TODO: implement or remove doDamage
      */
     public function doDamage() {
 
+    }
+
+    /**
+     * Called for each minion that is on the battlefield
+     * Useful for entities that alter game behavior, like Auchenai Soulpriest or Brann Bronzebeard
+     *
+     * @return \PHPHearthSim\Model\Entity;
+     */
+    public function onBattlefield() {
+       return $this;
     }
 
     /**
@@ -600,8 +611,9 @@ abstract class Entity extends EntityEvents implements EntityInterface {
      * @return \PHPHearthSim\Model\Entity;
      */
     public function destroy() {
-        // TODO: check silence flag or something
-        if ($this instanceof DeathrattleInterface) {
+        // TODO: Check if enitity is silenced
+        if ($this instanceof Deathrattle) {
+            // TODO: see if it matters what order the emit and deathrattle() is called.
             $this->emit(EntityEvent::EVENT_ENTITY_DEATHRATTLE);
             $this->deathrattle();
         }
