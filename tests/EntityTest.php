@@ -9,9 +9,7 @@
  */
 namespace PHPHearthSim\Tests;
 
-use PHPHearthSim\Game\Card\Z\ZombieChow;
-use PHPHearthSim\Model\Board;
-use PHPHearthSim\Model\Player;
+use PHPHearthSim\Game\Minion\Z\ZombieChow;
 
 class EntityTest extends TestCase
 {

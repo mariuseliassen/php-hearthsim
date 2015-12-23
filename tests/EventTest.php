@@ -9,11 +9,8 @@
  */
 namespace PHPHearthSim\Tests;
 
-use PHPHearthSim\Model\Board;
-use PHPHearthSim\Model\Player;
-use PHPHearthSim\Game\Card\Z\ZombieChow;
+use PHPHearthSim\Game\Minion\Z\ZombieChow;
 use PHPHearthSim\Event\EntityEvent;
-use PHPHearthSim\Event\TestEvent;
 
 class EventTest extends TestCase
 {
