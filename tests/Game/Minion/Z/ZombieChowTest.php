@@ -7,7 +7,7 @@
  * @copyright   Copyright (C) 2015 Switchback
  * @date: 15 12 2015
  */
-namespace PHPHearthSim\Tests\Game\Card\Z;
+namespace PHPHearthSim\Tests\Game\Minion\Z;
 
 use PHPHearthSim\Model\Entity;
 use PHPHearthSim\Game\Minion\A\AuchenaiSoulpriest;
@@ -29,7 +29,7 @@ class ZombieChowTest extends TestCase {
     public function testCardData() {
         // Test Minion instance
         $this->assertInstanceOf('PHPHearthSim\\Model\\Minion', $this->entity);
-        // Test Neutral instance
+        // Test EntityClass instance
         $this->assertInstanceOf('PHPHearthSim\\Model\\EntityClass\\Neutral', $this->entity);
         // Test name
         $this->assertEquals('Zombie Chow', $this->entity->getName());
