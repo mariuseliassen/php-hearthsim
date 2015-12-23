@@ -9,9 +9,13 @@
  */
 namespace PHPHearthSim\Model;
 
+use PHPHearthSim\Model\Minion;
 use PHPHearthSim\Model\Player;
 use PHPHearthSim\Event\EntityEvent;
 use Symfony\Component\EventDispatcher\EventDispatcher;
+
+use PHPHearthSim\Exception\Board\InvalidBattlefieldEntityException;
+use PHPHearthSim\Exception\Board\MinionNotFoundAtPositionException;
 
 /**
  * Class to hold and control the game board
@@ -33,6 +37,13 @@ use Symfony\Component\EventDispatcher\EventDispatcher;
  * @property \Symfony\Component\EventDispatcher\EventDispatcher $dispatcher set/get the event dispatcher
  */
 class Board {
+
+    /**
+     * Maximum size of the battlefield
+     *
+     * @var int
+     */
+    const MAX_BATTLEFIELD_SIZE = 7;
 
     /**
      * The entity counter
@@ -75,6 +86,22 @@ class Board {
      * @var \Symfony\Component\EventDispatcher\EventDispatcher
      */
     protected $dispatcher;
+
+    /**
+     * The battlefield. List of all active units and their placement
+     * Two dimentional array where first index is the player and the second index is the position
+     * Example: [0 => [0 => <Entity>, 1 => <Entity>], 1 => [0 => <Entity>]]
+     *
+     * @var array
+     */
+    protected $battlefield = [];
+
+    /**
+     * The graveyard. List of all minions that have been destroyed this game.
+     *
+     * @var array
+     */
+    protected $graveyard = [];
 
     /**
      * Construct new board
@@ -181,6 +208,11 @@ class Board {
         // Set board reference
         $me->setBoard($this);
 
+        // Set board on hero
+        if ($me->getHero() instanceof Hero) {
+            $me->getHero()->setBoard($this);
+        }
+
         $this->me = $me;
 
         return $this;
@@ -204,6 +236,11 @@ class Board {
     public function setOpponent(Player $opponent) {
        // Set board reference
        $opponent->setBoard($this);
+
+       // Set board on hero
+       if ($opponent->getHero() instanceof Hero) {
+           $opponent->getHero()->setBoard($this);
+       }
 
        $this->opponent = $opponent;
 
@@ -276,5 +313,111 @@ class Board {
         $this->setActivePlayer($newActivePlayer);
 
         return $this;
+    }
+
+
+    /**
+     * Method to add a minion to the battlefield
+     *
+     * @param \PHPHearthSim\Model\Entity $entity
+     * @param \PHPHearthSim\Model\Player $player
+     * @param int|null $newPosition The new entity position, if null we place it at the end
+     *
+     * @throws \PHPHearthSim\Exception\Board\InvalidBattlefieldEntityException when entity is not instance of Minion
+     * @return boolean "true" if entity was placed on battlefield, "false" if entity was not placed on battlefield
+     */
+    public function addToBattlefield(Entity $entity, $player, $newPosition = null) {
+        // Make sure entity is a minion, can't play spell on the battlefield!
+        if (!$entity instanceof Minion) {
+            throw new InvalidBattlefieldEntityException('Only entities of type Minion can be placed on the battlefield');
+        }
+
+        $minions = $this->getBattlefieldForPlayer($player);
+
+        // Make sure we have room for another minion
+        if (count($minions) < Board::MAX_BATTLEFIELD_SIZE) {
+
+            // If not position is provided, we generate a new index
+            if ($newPosition == null) {
+                $newPosition = count($minions);
+            }
+
+            // Insert minion at position
+            array_splice($minions, $newPosition + 1, 0, [$entity]);
+            // Update battlefield for player
+            $this->battlefield[$player->getid()] = $minions;
+
+            return true;
+        }
+
+        return false;
+    }
+
+    /**
+     * Get minion from battlefield at position for player
+     *
+     * @param \PHPHearthSim\Model\Player $player
+     * @param int $position
+     *
+     * @throws MinionNotFoundAtPositionException
+     * @return \PHPHearthSim\Model\Entity;
+     */
+    public function getMinionOnBattlefieldAtPosition(Player $player, $position) {
+        $minions = $this->getBattlefieldForPlayer($player);
+
+        if (!isset($minions[$posiion])) {
+            throw new MinionNotFoundAtPositionException('No minion was found at position ' . $position . ' for player ' . $player->getName());
+        }
+
+        return $minions[$position];
+    }
+
+    /**
+     * Return battlefield for player
+     *
+     * @param \PHPHearthSim\Model\Player $player
+     * @return array
+     */
+    public function getBattlefieldForPlayer(Player $player) {
+        // Create empty battlefield if it does not exist
+        if (!isset($this->battlefield[$player->getId()])) {
+            $this->battlefield[$player->getId()] = [];
+        }
+
+        return $this->battlefield[$player->getId()];
+    }
+
+    /**
+     * Check if a unit is on the battlefield for a specific player
+     * Optional flag to check if unit is also not silenced
+     *
+     * @param string $entityName
+     * @param \PHPHearthSim\Model\Player $player
+     * @param bool $checkIfSilenced If true flag then we also check that the unit is not silenced
+     *
+     * @return boolean
+     */
+    public function isOnBattlefield($entityName, Player $player, $checkIfSilenced = true) {
+        // Get minions on battlefield
+        $minions = $this->getBattlefieldForPlayer($player);
+
+        // No minions on board
+        if (empty($minions)) {
+            return false;
+        }
+
+        // Loop through minions
+        foreach ($minions as $position => $minion) {
+            // We found a minion that we were looking for
+            if (is_a($minion, $entityName)) {
+                // Only return true if we are not checking silence flag, or if unit is not silenced
+                if (!$checkIfSilenced || ($checkIfSilenced && !$minion->isSilenced())) {
+                    return true;
+                }
+            }
+        }
+
+        // No minions found
+        return false;
     }
 }

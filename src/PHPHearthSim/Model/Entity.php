@@ -21,7 +21,7 @@ use PHPHearthSim\Model\Mechanic\Deathrattle;
 use PHPHearthSim\Event\Entity\EntityCreateEvent;
 use PHPHearthSim\Event\Entity\EntityDeathrattleEvent;
 use PHPHearthSim\Event\Entity\EntityTakeDamageEvent;
-
+use PHPHearthSim\Event\Entity\EntityReceiveHealEvent;
 /**
  * Main game entity
  * This is the base class in which all other game entites are derived from.
@@ -223,6 +223,19 @@ abstract class Entity extends EntityEvents implements EntityInterface {
     }
 
     /**
+     * Set the board reference
+     *
+     * @param \PHPHearthSim\Model\Board $board
+     * @return \PHPHearthSim\Model\Player
+     */
+    public function setBoard(Board $board) {
+        $this->board = $board;
+
+        return $this;
+    }
+
+
+    /**
      * Set owner (player) of entity
      *
      * @param \PHPHearthSim\Model\Player $owner
@@ -337,6 +350,12 @@ abstract class Entity extends EntityEvents implements EntityInterface {
                 // When an entity takes damage
                 case EntityEvent::EVENT_ENTITY_TAKE_DAMAGE:
                     $event = new EntityTakeDamageEvent($this, $eventData);
+                    break;
+
+
+                // When an entity received healing
+                case EntityEvent::EVENT_ENTITY_RECEIVE_HEAL:
+                    $event = new EntityReceiveHealEvent($this, $eventData);
                     break;
 
                 // Invalid event
@@ -562,6 +581,16 @@ abstract class Entity extends EntityEvents implements EntityInterface {
     }
 
     /**
+     * Function to return if unit has been silenced or not
+     *
+     * @return boolean
+     */
+    public function isSilenced() {
+        // TODO: Return correct silenced value
+        return false;
+    }
+
+    /**
      * When the entity takes damage
      *
      * @param number $amount The amount of damage taken
@@ -594,6 +623,17 @@ abstract class Entity extends EntityEvents implements EntityInterface {
         // Just make sure damage is a positive value so we don't get any wierd interactions
         if ($amount < 0) {
             $amount = 0;
+        }
+
+        // Check and adjust values
+        if ($from != null) {
+            // Auchenai Soulpriest turns healing into damage
+            if ($this->getBoard()->isOnBattlefield('PHPHearthSim\Game\Minion\A\AuchenaiSoulpriest', $from->getOwner())) {
+                return $this->takeDamage($amount, $from);
+            // Professor Velen doubles the healing received
+            } else if ($this->getBoard()->isOnBattlefield('PHPHearthSim\Game\Minion\P\ProfessorVelen', $from->getOwner())) {
+                $amount = $amount * 2;
+            }
         }
 
         // Apply adjustment to health

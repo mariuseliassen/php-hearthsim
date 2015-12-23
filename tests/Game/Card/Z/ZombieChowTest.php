@@ -10,7 +10,8 @@
 namespace PHPHearthSim\Tests\Game\Card\Z;
 
 use PHPHearthSim\Model\Entity;
-use PHPHearthSim\Game\Card\Z\ZombieChow;
+use PHPHearthSim\Game\Minion\A\AuchenaiSoulpriest;
+use PHPHearthSim\Game\Minion\Z\ZombieChow;
 use PHPHearthSim\Tests\TestCase;
 
 class ZombieChowTest extends TestCase {
@@ -56,7 +57,22 @@ class ZombieChowTest extends TestCase {
 
         // Assert that enemy hero health is 5 more == 25
         $this->assertEquals(25, $this->emptyBoard->getOpponent()->getHero()->getHealth());
+    }
 
+    public function testDeathrattleWithAuchenaiSoulpriest() {
+        // Hero take some damage, from 30 (base) - 10 = 20.
+        $this->emptyBoard->getOpponent()->getHero()->takeDamage(10);
+
+        // Assert that enemy hero health is 20
+        $this->assertEquals(20, $this->emptyBoard->getOpponent()->getHero()->getHealth());
+
+        $this->emptyBoard->addToBattlefield(new AuchenaiSoulpriest(), $this->emptyBoard->getMe());
+
+        // Destroy minion, triggering the deathrattle in the same process
+        $this->entity->destroy();
+
+        // Assert that enemy hero health is 5 less == 15
+        $this->assertEquals(15, $this->emptyBoard->getOpponent()->getHero()->getHealth());
     }
 
 }

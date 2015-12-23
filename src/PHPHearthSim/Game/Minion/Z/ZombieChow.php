@@ -7,7 +7,7 @@
  * @copyright   Copyright (C) 2015 Switchback
  * @date: 13 12 2015
  */
-namespace PHPHearthSim\Game\Card\Z;
+namespace PHPHearthSim\Game\Minion\Z;
 
 use PHPHearthSim\Model\EntityClass\Neutral;
 use PHPHearthSim\Model\Minion;
@@ -43,7 +43,7 @@ class ZombieChow extends Entity implements Neutral, Minion, Deathrattle {
      */
     public function deathrattle() {
         // We pass it to adjustHealValue to support interactions like Professor Velen
-        $this->getEnemyHero()->healFor($this->getOwner()->adjustHealValue(5));
+        $this->getEnemyHero()->healFor(5, $this);
     }
 
 }
