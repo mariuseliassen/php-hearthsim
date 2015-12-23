@@ -5,26 +5,26 @@
  *
  * @author:     Switchback <switchback@exchange.no>
  * @copyright   Copyright (C) 2015 Switchback
- * @date: 18 12 2015
+ * @date: 23 12 2015
  */
-namespace PHPHearthSim\Model;
+namespace PHPHearthSim\Game\HeroPower;
 
+use PHPHearthSim\Model\HeroPower;
 use PHPHearthSim\Model\Entity;
 
 /**
- * Hero power.
- * This class controls the players hero power functionality
+ * Lesser Heal
+ * Restore 2 health
  *
- * @class HeroPower
+ * @class LesserHeal
  */
-abstract class HeroPower extends Entity {
+class LesserHeal extends HeroPower {
 
     /** {@inheritDoc} */
-    protected $rarity = Entity::RARITY_UNIQUE;
+    protected $name = 'Lesser Heal';
 
     /**
      * Constructor
-     * HeroPower is abstract, but the extended classes hold information about triggers and functionality
      *
      * @param array $options Options to set during initialization
      */
@@ -34,14 +34,17 @@ abstract class HeroPower extends Entity {
     }
 
     /**
-     * Use hero power on target.
-     * Checks if entity is targetable by hero power should already be performed in Hero->useHeroPower.
-     * Never call this method directly.
+     * Hero power:
+     * Restore 2 health
      *
      * @param \PHPHearthSim\Model\Entity $target
-     * @return \PHPHearthSim\Model\HeroPower
-     */
+     * @return \PHPHearthSim\Model\LesserHeal
+     * */
     public function useOn(Entity $target) {
+        // Heal target for 2
+        $target->healFor(2, $this);
+
         return $this;
     }
+
 }

@@ -226,7 +226,7 @@ abstract class Entity extends EntityEvents implements EntityInterface {
      * Set the board reference
      *
      * @param \PHPHearthSim\Model\Board $board
-     * @return \PHPHearthSim\Model\Player
+     * @return \PHPHearthSim\Model\Entity
      */
     public function setBoard(Board $board) {
         $this->board = $board;

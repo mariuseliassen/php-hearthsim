@@ -33,23 +33,12 @@ abstract class Hero extends Entity {
     protected $heroPower;
 
     /**
-     * Reference to player that controls the hero
-     *
-     * @var \PHPHearthSim\Model\Player;
-     */
-    protected $player;
-
-    /**
      * Constructor
      * Hero is abstract, but the extended classes should in constructors pass in options for hero power etc
      *
      * @param array $options Options to set during initialization
      */
     public function __construct(array $options = []) {
-        // Set player reference
-        if (isset($options['player']) && $options['player'] instanceof Player) {
-            $this->player = $options['player'];
-        }
         // Set hero power reference
         if (isset($options['heroPower']) && $options['heroPower'] instanceof HeroPower) {
             $this->heroPower = $options['heroPower'];
@@ -57,5 +46,29 @@ abstract class Hero extends Entity {
 
         // Call the parent constructor to set up events, etc.
         parent::__construct($options);
+    }
+
+    /**
+     * Return hero power
+     *
+     * @return \PHPHearthSim\Model\HeroPower
+     */
+    public function getHeroPower() {
+        return $this->heroPower;
+    }
+
+    /**
+     * Use hero power on target
+     *
+     * @param \PHPHearthSim\Model\Entity $target
+     * @return \PHPHearthSim\Model\Hero
+     */
+    public function useHeroPower(Entity $target) {
+        // TODO: make sure entity can be targeted (like Faerie Dragon can not be targeted by hero power)
+        if ($this->heroPower != null) {
+            $this->heroPower->useOn($target);
+        }
+
+        return $this;
     }
 }

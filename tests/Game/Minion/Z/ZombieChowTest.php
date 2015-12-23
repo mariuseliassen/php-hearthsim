@@ -66,6 +66,7 @@ class ZombieChowTest extends TestCase {
         // Assert that enemy hero health is 20
         $this->assertEquals(20, $this->emptyBoard->getOpponent()->getHero()->getHealth());
 
+        // Add Auchenai Soulpriest to battlefield
         $this->emptyBoard->addToBattlefield(new AuchenaiSoulpriest(), $this->emptyBoard->getMe());
 
         // Destroy minion, triggering the deathrattle in the same process

@@ -11,9 +11,9 @@ namespace PHPHearthSim\Tests\Game\Minion\A;
 
 use PHPHearthSim\Model\Entity;
 use PHPHearthSim\Game\Minion\A\AuchenaiSoulpriest;
-use PHPHearthSim\Tests\TestCase;
+use PHPHearthSim\Tests\TestCase\PriestVsWarriorTestCase;
 
-class AuchenaiSoulpriestTest extends TestCase {
+class AuchenaiSoulpriestTest extends PriestVsWarriorTestCase {
 
     protected $entity;
 
@@ -39,6 +39,20 @@ class AuchenaiSoulpriestTest extends TestCase {
         $this->assertEquals(5, $this->entity->getBaseHealth());
         // Test rarity
         $this->assertEquals(Entity::RARITY_RARE, $this->entity->getRarity());
+    }
+
+    public function testLesserHealDoesDamage() {
+        // Assert that enemy hero health is starting health
+        $this->assertEquals(30, $this->emptyBoard->getOpponent()->getHero()->getHealth());
+
+        // Add Auchenai Soulpriest to my battlefield
+        $this->emptyBoard->addToBattlefield(new AuchenaiSoulpriest(), $this->emptyBoard->getMe());
+
+        // Use hero power on opponent hero
+        $this->emptyBoard->getMe()->getHero()->useHeroPower($this->emptyBoard->getOpponent()->getHero());
+
+        // Assert that enemy hero health is 2 less == 28
+        $this->assertEquals(28, $this->emptyBoard->getOpponent()->getHero()->getHealth());
     }
 
 }

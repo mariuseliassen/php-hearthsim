@@ -5,26 +5,26 @@
  *
  * @author:     Switchback <switchback@exchange.no>
  * @copyright   Copyright (C) 2015 Switchback
- * @date: 18 12 2015
+ * @date: 23 12 2015
  */
-namespace PHPHearthSim\Game\Hero\Warrior;
+namespace PHPHearthSim\Game\Hero\Priest;
 
 use PHPHearthSim\Model\Hero;
-use PHPHearthSim\Game\HeroPower\ArmorUp;
+use PHPHearthSim\Game\HeroPower\LesserHeal;
 
 /**
- * Garrosh Hellscream.
- * Warrior hero
+ * Anduin Wrynn.
+ * Priest hero
  *
- * - Has "Armor Up!" hero power. Gain 2 armor
- * - Horde
+ * - Has "Lesser Heal" hero power. Gain 2 armor
+ * - Alliance
  *
- * @class GarroshHellscream
+ * @class AnduinWrynn
  */
-class GarroshHellscream extends Hero {
+class AnduinWrynn extends Hero {
 
     /** {@inheritDoc} */
-    protected $name = 'Garrosh Hellscream';
+    protected $name = 'Anduin Wrynn';
 
     /** {@inheritDoc} */
     protected $baseCost = 0;
@@ -42,7 +42,7 @@ class GarroshHellscream extends Hero {
      */
     public function __construct(array $options = []) {
         // Warrior have the "Armor Up!" hero power. Gain 2 armor
-        $options['heroPower'] = new ArmorUp();
+        $options['heroPower'] = new LesserHeal();
 
         // Call the constructor to apply hero power
         parent::__construct($options);

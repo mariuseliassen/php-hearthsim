@@ -9,9 +9,6 @@
  */
 namespace PHPHearthSim\Tests;
 
-use PHPHearthSim\Model\Board;
-use PHPHearthSim\Model\Player;
-
 class BoardTest extends TestCase
 {
 

@@ -158,6 +158,9 @@ class Player {
      * @return \PHPHearthSim\Model\Player
      */
     public function setHero(Hero $hero) {
+        // Set owner
+        $hero->setOwner($this);
+        // Assign hero
         $this->hero = $hero;
 
         return $this;

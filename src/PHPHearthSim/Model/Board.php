@@ -131,6 +131,19 @@ class Board {
     }
 
     /**
+     * Update players hero and hero power states.
+     * This method should be called if players get new heroes during the game
+     *
+     * @return \PHPHearthSim\Model\Board
+     */
+    public function updatePlayers() {
+        $this->setMe($this->getMe());
+        $this->setOpponent($this->getOpponent());
+
+        return $this;
+    }
+
+    /**
      * Set the event dispatcher
      *
      * @param \Symfony\Component\EventDispatcher\EventDispatcher $dispatcher
@@ -208,9 +221,16 @@ class Board {
         // Set board reference
         $me->setBoard($this);
 
-        // Set board on hero
+        // Set board and owner on hero
         if ($me->getHero() instanceof Hero) {
             $me->getHero()->setBoard($this);
+            $me->getHero()->setOwner($me);
+
+            // Set board and owner on heropower
+            if ($me->getHero()->getHeroPower() instanceof HeroPower) {
+                $me->getHero()->getHeroPower()->setBoard($this);
+                $me->getHero()->getHeroPower()->setOwner($me);
+            }
         }
 
         $this->me = $me;
@@ -240,6 +260,13 @@ class Board {
        // Set board on hero
        if ($opponent->getHero() instanceof Hero) {
            $opponent->getHero()->setBoard($this);
+           $opponent->getHero()->setOwner($opponent);
+
+           // Set board and owner on heropower
+           if ($opponent->getHero()->getHeroPower() instanceof HeroPower) {
+               $opponent->getHero()->getHeroPower()->setBoard($this);
+               $opponent->getHero()->getHeroPower()->setOwner($opponent);
+           }
        }
 
        $this->opponent = $opponent;
