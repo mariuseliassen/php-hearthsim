@@ -177,7 +177,13 @@ abstract class Entity extends EntityEvents implements EntityInterface {
      */
     protected $traits;
 
-
+    /**
+     * If unit has been silenced.
+     * You can never remove a silence.
+     *
+     * @var boolean
+     */
+    protected $silenced = false;
 
     /**
      * Constructor
@@ -586,8 +592,7 @@ abstract class Entity extends EntityEvents implements EntityInterface {
      * @return boolean
      */
     public function isSilenced() {
-        // TODO: Return correct silenced value
-        return false;
+        return $this->silenced;
     }
 
     /**
@@ -651,8 +656,7 @@ abstract class Entity extends EntityEvents implements EntityInterface {
      * @return \PHPHearthSim\Model\Entity;
      */
     public function destroy() {
-        // TODO: Check if enitity is silenced
-        if ($this instanceof Deathrattle) {
+        if (!$this->isSilenced() && $this instanceof Deathrattle) {
             // TODO: see if it matters what order the emit and deathrattle() is called.
             $this->emit(EntityEvent::EVENT_ENTITY_DEATHRATTLE);
             $this->deathrattle();
@@ -662,11 +666,17 @@ abstract class Entity extends EntityEvents implements EntityInterface {
     }
 
     /**
-     * temporary
-     * TODO: implement or remove onSilence
+     * Silence the entity, removing current buffs and deathrattle effects
+     * TODO: Need a better way to handle deathrattle, for example Soul of the Forest can be applied to existing minions.
+     *
+     * @return \PHPHearthSim\Model\Entity
      */
     public function silence() {
+        $this->silenced = true;
 
+        // TODO: Loop and remove buffs or debuffs.
+
+        return $this;
     }
 
 }

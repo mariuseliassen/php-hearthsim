@@ -359,6 +359,11 @@ class Board {
             throw new InvalidBattlefieldEntityException('Only entities of type Minion can be placed on the battlefield');
         }
 
+        // Update entity references
+        $entity->setBoard($this);
+        $entity->setOwner($player);
+
+        // Get minions
         $minions = $this->getBattlefieldForPlayer($player);
 
         // Make sure we have room for another minion
