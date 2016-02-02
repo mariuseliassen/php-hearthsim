@@ -10,6 +10,7 @@
 namespace PHPHearthSim\Model;
 
 use PHPHearthSim\Model\Entity;
+use PHPHearthSim\Exception\HeroPower\HeroPowerAlreadyUsedThisTurnException;
 
 /**
  * Hero power.
@@ -23,6 +24,20 @@ abstract class HeroPower extends Entity {
     protected $rarity = Entity::RARITY_UNIQUE;
 
     /**
+     * Number of times the hero power has been used this game
+     *
+     * @var int
+     */
+    protected $numUsedThisGame = 0;
+
+    /**
+     * Number of times the hero power has been used this turn
+     *
+     * @var int
+     */
+    protected $numUsedThisTurn = 0;
+
+    /**
      * Constructor
      * HeroPower is abstract, but the extended classes hold information about triggers and functionality
      *
@@ -34,6 +49,15 @@ abstract class HeroPower extends Entity {
     }
 
     /**
+     *
+     * @return boolean Returns true if the hero power can be used, false if not
+     */
+    public function canUse() {
+        // TODO: Need to check the board for minions that control the way hero power can be used
+        return ($this->numUsedThisTurn == 0);
+    }
+
+    /**
      * Use hero power on target.
      * Checks if entity is targetable by hero power should already be performed in Hero->useHeroPower.
      * Never call this method directly.
@@ -41,7 +65,15 @@ abstract class HeroPower extends Entity {
      * @param \PHPHearthSim\Model\Entity $target
      * @return \PHPHearthSim\Model\HeroPower
      */
-    public function useOn(Entity $target) {
+    public function useOn(Entity $target = null) {
+        // Check that we can use the hero power
+        if (!$this->canUse()) {
+            throw new HeroPowerAlreadyUsedThisTurnException("The hero power has already been used maximum number of times this turn");
+        }
+
+        // Increment the number of times the hero power has been used
+        $this->numUsedThisTurn++;
+
         return $this;
     }
 }

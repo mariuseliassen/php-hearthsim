@@ -22,6 +22,8 @@ use PHPHearthSim\Event\Entity\EntityCreateEvent;
 use PHPHearthSim\Event\Entity\EntityDeathrattleEvent;
 use PHPHearthSim\Event\Entity\EntityTakeDamageEvent;
 use PHPHearthSim\Event\Entity\EntityReceiveHealEvent;
+use PHPHearthSim\Event\Entity\EntityGainArmorEvent;
+use PHPHearthSim\Event\Entity\EntityRemoveArmorEvent;
 /**
  * Main game entity
  * This is the base class in which all other game entites are derived from.
@@ -263,9 +265,20 @@ abstract class Entity extends EntityEvents implements EntityInterface {
     }
 
     /**
+     * Return my hero based on owner value
+     *
+     * @return \PHPHearthSim\Model\Hero
+     */
+    public function getHero() {
+        // If "me" owns the card, return "me", else return "opponent"
+        return ($this->getOwner() == $this->getBoard()->getMe()) ?
+            $this->getBoard()->getMe()->getHero() : $this->getBoard()->getOpponent()->getHero();
+    }
+
+    /**
      * Return enemy hero based on owner value
      *
-     * @return \PHPHearthSim\Model\Player
+     * @return \PHPHearthSim\Model\Hero
      */
     public function getEnemyHero() {
         // If "me" owns the card, return "opponent", else return "me"
@@ -358,10 +371,19 @@ abstract class Entity extends EntityEvents implements EntityInterface {
                     $event = new EntityTakeDamageEvent($this, $eventData);
                     break;
 
-
                 // When an entity received healing
                 case EntityEvent::EVENT_ENTITY_RECEIVE_HEAL:
                     $event = new EntityReceiveHealEvent($this, $eventData);
+                    break;
+
+                // When an entity gained armor
+                case EntityEvent::EVENT_ENTITY_GAIN_ARMOR:
+                    $event = new EntityGainArmorEvent($this, $eventData);
+                    break;
+
+                // When an entity removed armor
+                case EntityEvent::EVENT_ENTITY_REMOVE_ARMOR:
+                    $event = new EntityRemoveArmorEvent($this, $eventData);
                     break;
 
                 // Invalid event
@@ -608,11 +630,14 @@ abstract class Entity extends EntityEvents implements EntityInterface {
             $amount = 0;
         }
 
-        // Apply adjustment to health
-        $this->addAdjustment(new EntityAdjustment(EntityAdjustment::ADJUSTMENT_HEALTH, -$amount));
+        // Make sure damage is taken
+        if ($amount > 0) {
+            // Apply adjustment to health
+            $this->addAdjustment(new EntityAdjustment(EntityAdjustment::ADJUSTMENT_HEALTH, -$amount));
 
-        // Emit that we took damage
-        $this->emit(EntityEvent::EVENT_ENTITY_TAKE_DAMAGE, ['amount' => $amount]);
+            // Emit that we took damage
+            $this->emit(EntityEvent::EVENT_ENTITY_TAKE_DAMAGE, ['amount' => $amount]);
+        }
 
         return $this;
     }

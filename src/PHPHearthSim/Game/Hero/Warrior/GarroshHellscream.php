@@ -10,7 +10,7 @@
 namespace PHPHearthSim\Game\Hero\Warrior;
 
 use PHPHearthSim\Model\Hero;
-use PHPHearthSim\Game\HeroPower\ArmorUp;
+use PHPHearthSim\Game\HeroPower\Warrior\ArmorUp;
 
 /**
  * Garrosh Hellscream.

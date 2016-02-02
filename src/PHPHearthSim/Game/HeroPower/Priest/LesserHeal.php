@@ -7,7 +7,7 @@
  * @copyright   Copyright (C) 2015 Switchback
  * @date: 23 12 2015
  */
-namespace PHPHearthSim\Game\HeroPower;
+namespace PHPHearthSim\Game\HeroPower\Priest;
 
 use PHPHearthSim\Model\HeroPower;
 use PHPHearthSim\Model\Entity;
@@ -38,9 +38,12 @@ class LesserHeal extends HeroPower {
      * Restore 2 health
      *
      * @param \PHPHearthSim\Model\Entity $target
-     * @return \PHPHearthSim\Model\LesserHeal
+     * @return \PHPHearthSim\Game\HeroPower\Priest\LesserHeal
      * */
     public function useOn(Entity $target) {
+        // Call parent to update usage, etc
+        parent::useOn($target);
+
         // Heal target for 2
         $target->healFor(2, $this);
 

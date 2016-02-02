@@ -10,13 +10,13 @@
 namespace PHPHearthSim\Game\Hero\Priest;
 
 use PHPHearthSim\Model\Hero;
-use PHPHearthSim\Game\HeroPower\LesserHeal;
+use PHPHearthSim\Game\HeroPower\Priest\LesserHeal;
 
 /**
  * Anduin Wrynn.
  * Priest hero
  *
- * - Has "Lesser Heal" hero power. Gain 2 armor
+ * - Has "Lesser Heal" hero power. Restore 2 health
  * - Alliance
  *
  * @class AnduinWrynn
@@ -41,7 +41,7 @@ class AnduinWrynn extends Hero {
      * @param array $options
      */
     public function __construct(array $options = []) {
-        // Warrior have the "Armor Up!" hero power. Gain 2 armor
+        // Priest have the "Lesser heal" hero power. Restore 2 health
         $options['heroPower'] = new LesserHeal();
 
         // Call the constructor to apply hero power

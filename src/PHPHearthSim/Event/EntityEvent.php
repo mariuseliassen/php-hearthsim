@@ -49,6 +49,20 @@ abstract class EntityEvent extends Event {
     const EVENT_ENTITY_RECEIVE_HEAL = 'entity.receive_heal';
 
     /**
+     * Constant for entity gain armor
+     *
+     * @var string
+     */
+    const EVENT_ENTITY_GAIN_ARMOR = 'entity.gain_armor';
+
+    /**
+     * Constant for entity removed armor
+     *
+     * @var string
+     */
+    const EVENT_ENTITY_REMOVE_ARMOR = 'entity.remove_armor';
+
+    /**
      * Name of event called
      *
      * @var string

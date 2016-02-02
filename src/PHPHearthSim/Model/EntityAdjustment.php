@@ -23,6 +23,7 @@ class EntityAdjustment {
      * @var string
      */
     const ADJUSTMENT_HEALTH = 'adjustment.health';
+    
 
     /**
      * Set health to a specific value
