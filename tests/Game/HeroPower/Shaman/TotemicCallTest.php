@@ -9,6 +9,7 @@
  */
 namespace PHPHearthSim\Tests\Game\HeroPower\Shaman;
 
+use PHPHearthSim\Model\Board;
 use PHPHearthSim\Tests\TestCase\ShamanVsWarriorTestCase;
 use PHPHearthSim\Game\Minion\Z\ZombieChow;
 
@@ -95,22 +96,18 @@ class TotemicCallTest extends ShamanVsWarriorTestCase {
         $this->assertEquals(0, count($this->board->getBattlefieldForPlayer($this->board->getMe())));
 
         // Add 7 minions
-        $this->board->addToBattlefield(new ZombieChow(), $this->board->getMe());
-        $this->board->addToBattlefield(new ZombieChow(), $this->board->getMe());
-        $this->board->addToBattlefield(new ZombieChow(), $this->board->getMe());
-        $this->board->addToBattlefield(new ZombieChow(), $this->board->getMe());
-        $this->board->addToBattlefield(new ZombieChow(), $this->board->getMe());
-        $this->board->addToBattlefield(new ZombieChow(), $this->board->getMe());
-        $this->board->addToBattlefield(new ZombieChow(), $this->board->getMe());
+        for ($i = 0; $i < Board::MAX_BATTLEFIELD_SIZE; $i++) {
+            $this->board->addToBattlefield(new ZombieChow(), $this->board->getMe());
+        }
 
         // Make sure that battlefield count is 7
-        $this->assertEquals(7, count($this->board->getBattlefieldForPlayer($this->board->getMe())));
+        $this->assertEquals(Board::MAX_BATTLEFIELD_SIZE, count($this->board->getBattlefieldForPlayer($this->board->getMe())));
 
         // Use hero power, don't need a target for this one
         $this->board->getMe()->getHero()->useHeroPower();
 
         // Make sure that battlefield count is still 7
-        $this->assertEquals(7, count($this->board->getBattlefieldForPlayer($this->board->getMe())));
+        $this->assertEquals(Board::MAX_BATTLEFIELD_SIZE, count($this->board->getBattlefieldForPlayer($this->board->getMe())));
 
     }
 
