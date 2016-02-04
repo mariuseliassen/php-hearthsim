@@ -515,7 +515,7 @@ abstract class Entity extends EntityEvents implements EntityInterface {
      * @return int
      */
     public function getHealth() {
-        $health = $this->baseHealth;
+        $health = $baseHealth = $this->baseHealth;
 
         foreach ($this->getAdjustments() as $adjustment) {
             // check for health adjustments
@@ -523,6 +523,12 @@ abstract class Entity extends EntityEvents implements EntityInterface {
                 // Adjust the health, add or subtract value
                 case EntityAdjustment::ADJUSTMENT_HEALTH:
                     $health += $adjustment->getValue();
+
+                    // Make sure health is never higher than maximum health
+                    if ($health > $baseHealth) {
+                        $health = $baseHealth;
+                    }
+
                     break;
 
                 // Force new health value
