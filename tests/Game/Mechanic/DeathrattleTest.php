@@ -9,8 +9,6 @@
  */
 namespace PHPHearthSim\Tests\Game\Mechanic;
 
-use PHPHearthSim\Model\Entity;
-use PHPHearthSim\Game\Minion\A\AuchenaiSoulpriest;
 use PHPHearthSim\Game\Minion\Z\ZombieChow;
 use PHPHearthSim\Tests\TestCase;
 
