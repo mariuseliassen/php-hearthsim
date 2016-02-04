@@ -21,8 +21,8 @@ class ZombieChowTest extends TestCase {
     protected function setUp() {
         parent::setUp();
 
-        $this->entity = new ZombieChow(['board' => $this->emptyBoard,
-                                        'owner' => $this->emptyBoard->getMe() // Set me as owner of card
+        $this->entity = new ZombieChow(['board' => $this->board,
+                                        'owner' => $this->board->getMe() // Set me as owner of card
         ]);
     }
 
@@ -47,33 +47,33 @@ class ZombieChowTest extends TestCase {
         $this->assertInstanceOf('PHPHearthSim\\Model\\Mechanic\\Deathrattle', $this->entity);
 
         // Hero take some damage, from 30 (base) - 10 = 20.
-        $this->emptyBoard->getOpponent()->getHero()->takeDamage(10);
+        $this->board->getOpponent()->getHero()->takeDamage(10);
 
         // Assert that enemy hero health is 20
-        $this->assertEquals(20, $this->emptyBoard->getOpponent()->getHero()->getHealth());
+        $this->assertEquals(20, $this->board->getOpponent()->getHero()->getHealth());
 
         // Destroy minion, triggering the deathrattle in the same process
         $this->entity->destroy();
 
         // Assert that enemy hero health is 5 more == 25
-        $this->assertEquals(25, $this->emptyBoard->getOpponent()->getHero()->getHealth());
+        $this->assertEquals(25, $this->board->getOpponent()->getHero()->getHealth());
     }
 
     public function testDeathrattleWithAuchenaiSoulpriest() {
         // Hero take some damage, from 30 (base) - 10 = 20.
-        $this->emptyBoard->getOpponent()->getHero()->takeDamage(10);
+        $this->board->getOpponent()->getHero()->takeDamage(10);
 
         // Assert that enemy hero health is 20
-        $this->assertEquals(20, $this->emptyBoard->getOpponent()->getHero()->getHealth());
+        $this->assertEquals(20, $this->board->getOpponent()->getHero()->getHealth());
 
         // Add Auchenai Soulpriest to battlefield
-        $this->emptyBoard->addToBattlefield(new AuchenaiSoulpriest(), $this->emptyBoard->getMe());
+        $this->board->addToBattlefield(new AuchenaiSoulpriest(), $this->board->getMe());
 
         // Destroy minion, triggering the deathrattle in the same process
         $this->entity->destroy();
 
         // Assert that enemy hero health is 5 less == 15
-        $this->assertEquals(15, $this->emptyBoard->getOpponent()->getHero()->getHealth());
+        $this->assertEquals(15, $this->board->getOpponent()->getHero()->getHealth());
     }
 
 }

@@ -15,6 +15,9 @@ use PHPHearthSim\Game\Hero\Warrior\GarroshHellscream;
 
 abstract class TestCase extends \PHPUnit_Framework_TestCase {
 
+    /** @var int */
+    const RANDOM_SEED = 48712383;
+
     /** @var \PHPHearthSim\Model\Board */
     protected $board;
 
@@ -25,6 +28,9 @@ abstract class TestCase extends \PHPUnit_Framework_TestCase {
      * Setup stuff
      */
     protected function setUp() {
+        // Seed random so we can predict the outcome of random events
+        srand(self::RANDOM_SEED);
+
         // Create players
         $me = new Player();
         $me->setId(1);
@@ -38,9 +44,6 @@ abstract class TestCase extends \PHPUnit_Framework_TestCase {
 
         // Create board
         $this->board = new Board($me, $opponent);
-
-        // Create empty board
-        $this->emptyBoard = new Board($me, $opponent);
     }
 
 }

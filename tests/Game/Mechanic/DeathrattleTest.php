@@ -15,34 +15,34 @@ use PHPHearthSim\Tests\TestCase;
 class DeathrattleTest extends TestCase {
 
     public function testDeathrattle() {
-        $entity = new ZombieChow(['board' => $this->emptyBoard,
-                                  'owner' => $this->emptyBoard->getMe()]);
+        $entity = new ZombieChow(['board' => $this->board,
+                                  'owner' => $this->board->getMe()]);
 
         // Test deathrattle interface
         $this->assertInstanceOf('PHPHearthSim\\Model\\Mechanic\\Deathrattle', $entity);
 
         // Hero take some damage, from 30 (base) - 10 = 20.
-        $this->emptyBoard->getOpponent()->getHero()->takeDamage(10);
+        $this->board->getOpponent()->getHero()->takeDamage(10);
 
         // Assert that enemy hero health is 20
-        $this->assertEquals(20, $this->emptyBoard->getOpponent()->getHero()->getHealth());
+        $this->assertEquals(20, $this->board->getOpponent()->getHero()->getHealth());
 
         // Destroy minion, triggering the deathrattle in the same process
         $entity->destroy();
 
         // Assert that enemy hero health is 5 more == 25
-        $this->assertEquals(25, $this->emptyBoard->getOpponent()->getHero()->getHealth());
+        $this->assertEquals(25, $this->board->getOpponent()->getHero()->getHealth());
     }
 
     public function testDeathrattleNotTriggeringWhenSilenced() {
-        $entity = new ZombieChow(['board' => $this->emptyBoard,
-                                  'owner' => $this->emptyBoard->getMe()]);
+        $entity = new ZombieChow(['board' => $this->board,
+                                  'owner' => $this->board->getMe()]);
 
         // Hero take some damage, from 30 (base) - 10 = 20.
-        $this->emptyBoard->getOpponent()->getHero()->takeDamage(10);
+        $this->board->getOpponent()->getHero()->takeDamage(10);
 
         // Assert that enemy hero health is 20
-        $this->assertEquals(20, $this->emptyBoard->getOpponent()->getHero()->getHealth());
+        $this->assertEquals(20, $this->board->getOpponent()->getHero()->getHealth());
 
         // Silence minion
         $entity->silence();
@@ -51,6 +51,6 @@ class DeathrattleTest extends TestCase {
         $entity->destroy();
 
         // Assert that enemy hero health is the same == 20
-        $this->assertEquals(20, $this->emptyBoard->getOpponent()->getHero()->getHealth());
+        $this->assertEquals(20, $this->board->getOpponent()->getHero()->getHealth());
     }
 }

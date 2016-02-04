@@ -20,8 +20,8 @@ class AuchenaiSoulpriestTest extends PriestVsWarriorTestCase {
     protected function setUp() {
         parent::setUp();
 
-        $this->entity = new AuchenaiSoulpriest(['board' => $this->emptyBoard,
-                                                'owner' => $this->emptyBoard->getMe() // Set me as owner of card
+        $this->entity = new AuchenaiSoulpriest(['board' => $this->board,
+                                                'owner' => $this->board->getMe() // Set me as owner of card
         ]);
     }
 
@@ -43,16 +43,16 @@ class AuchenaiSoulpriestTest extends PriestVsWarriorTestCase {
 
     public function testLesserHealDoesDamage() {
         // Assert that enemy hero health is starting health
-        $this->assertEquals(30, $this->emptyBoard->getOpponent()->getHero()->getHealth());
+        $this->assertEquals(30, $this->board->getOpponent()->getHero()->getHealth());
 
         // Add Auchenai Soulpriest to my battlefield
-        $this->emptyBoard->addToBattlefield(new AuchenaiSoulpriest(), $this->emptyBoard->getMe());
+        $this->board->addToBattlefield(new AuchenaiSoulpriest(), $this->board->getMe());
 
         // Use hero power on opponent hero
-        $this->emptyBoard->getMe()->getHero()->useHeroPower($this->emptyBoard->getOpponent()->getHero());
+        $this->board->getMe()->getHero()->useHeroPower($this->board->getOpponent()->getHero());
 
         // Assert that enemy hero health is 2 less == 28
-        $this->assertEquals(28, $this->emptyBoard->getOpponent()->getHero()->getHealth());
+        $this->assertEquals(28, $this->board->getOpponent()->getHero()->getHealth());
     }
 
 }
