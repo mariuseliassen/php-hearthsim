@@ -13,7 +13,7 @@ use PHPHearthSim\Tests\TestCase\PriestVsWarriorTestCase;
 
 class ArmorUpTest extends PriestVsWarriorTestCase {
 
-    public function testHeroPower() {
+    public function testHeroPowerInstance() {
         // Test ArmorUp instance
         $this->assertInstanceOf('PHPHearthSim\\Game\\HeroPower\\Warrior\\ArmorUp',
                                 $this->board->getOpponent()->getHero()->getHeroPower());
