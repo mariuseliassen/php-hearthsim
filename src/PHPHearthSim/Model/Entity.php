@@ -14,7 +14,6 @@ use PHPHearthSim\Exception\Entity\InvalidEventException;
 use PHPHearthSim\Model\Player;
 use PHPHearthSim\Model\EntityAdjustment;
 use PHPHearthSim\Model\Board;
-use PHPHearthSim\Event\EntitySubscriber;
 use PHPHearthSim\Event\EntityEvent;
 use PHPHearthSim\Model\Mechanic\Deathrattle;
 
@@ -80,9 +79,7 @@ abstract class Entity extends EntityEvents implements EntityInterface {
      *
      * @var array
      */
-    protected $listeners = [
-        EntityEvent::EVENT_ENTITY_CREATE
-    ];
+    protected $listeners = [];
 
     /**
      * Get owner of entity
@@ -194,7 +191,8 @@ abstract class Entity extends EntityEvents implements EntityInterface {
      * @param array $options Options to set during initialization
      */
     public function __construct(array $options = []) {
-        parent::__construct();
+        // Listen to entity create
+        $this->addListener(EntityEvent::EVENT_ENTITY_CREATE);
 
         // Assign the board
         if (isset($options['board'])) {
@@ -213,6 +211,13 @@ abstract class Entity extends EntityEvents implements EntityInterface {
             $this->owner = $options['owner'];
         }
 
+        // Apply listeners
+        if (isset($options['listeners'])) {
+            foreach ($options['listeners'] as $eventName) {
+                $this->addListener($eventName);
+            }
+        }
+
         // Set up subscription to events
         $this->subscribe();
         // Signal that we were created
@@ -227,6 +232,11 @@ abstract class Entity extends EntityEvents implements EntityInterface {
      * @return \PHPHearthSim\Model\Board
      */
     public function getBoard() {
+        // Fix for missing boards on hero powers, etc
+        if ($this->board == null && $this->getOwner() instanceof Player && $this->getOwner()->getBoard() != null) {
+            $this->board = $this->getOwner()->getBoard();
+        }
+
         return $this->board;
     }
 
@@ -238,6 +248,9 @@ abstract class Entity extends EntityEvents implements EntityInterface {
      */
     public function setBoard(Board $board) {
         $this->board = $board;
+
+        // Set up subscription to events
+        $this->subscribe();
 
         return $this;
     }
@@ -301,17 +314,51 @@ abstract class Entity extends EntityEvents implements EntityInterface {
      * @return \PHPHearthSim\Model\Entity
      */
     private function subscribe() {
+        // Get board
+        $board = $this->getBoard();
+
         // Make sure we have a valid board
-        if (!$this->board instanceof Board) {
+        if (!$board instanceof Board) {
             return $this;
         }
 
-        // Create entity subscriber for this entity
-        $entitySubscriber = new EntitySubscriber();
-        $entitySubscriber->setEntity($this);
+        // Get dispatcher
+        $dispatcher = $board->getDispatcher();
 
-        // Add the subscriber
-        $this->getBoard()->subscribe($entitySubscriber);
+        // Loop over listeners and add them to dispatcher
+        foreach ($this->listeners as $eventName) {
+            // Add listener for event
+            $dispatcher->addListener($eventName, function(EntityEvent $event) {
+                $eventEntity = $event->getEntity();
+                $eventName = $event->getEventName();
+
+                // Make sure entity is listening to the event
+                if (!$this->listenTo($eventName)) {
+                    return;
+                }
+
+                // Entity create should not signal itself
+                if ($eventEntity != null && $eventEntity->getId() == $this->getId()) {
+                    return;
+                }
+
+                // See what event it is and call correct handler
+                switch($eventName) {
+                    // Turn started
+                    case EntityEvent::EVENT_BOARD_TURN_START:
+                        $this->onBoardTurnStart($event);
+                        break;
+
+                    // Entity created
+                    case EntityEvent::EVENT_ENTITY_CREATE:
+                        $this->onEntityCreateEvent($event);
+                        break;
+                }
+
+                // Update last signal received
+                $this->setLastSignalReceived($eventName, $event);
+            });
+        }
 
         return $this;
     }

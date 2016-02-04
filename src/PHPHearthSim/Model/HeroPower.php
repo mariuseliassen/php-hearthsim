@@ -10,6 +10,8 @@
 namespace PHPHearthSim\Model;
 
 use PHPHearthSim\Model\Entity;
+use PHPHearthSim\Event\EntityEvent;
+use PHPHearthSim\Event\Board\BoardTurnStartEvent;
 use PHPHearthSim\Exception\HeroPower\HeroPowerAlreadyUsedThisTurnException;
 
 /**
@@ -44,9 +46,21 @@ abstract class HeroPower extends Entity {
      * @param array $options Options to set during initialization
      */
     public function __construct(array $options = []) {
+        // Listen to board start
+        $options['listeners'] = [EntityEvent::EVENT_BOARD_TURN_START];
+
         // Call the parent constructor to set up events, etc.
         parent::__construct($options);
     }
+
+    /** {@inheritDoc} */
+    public function onBoardTurnStart(BoardTurnStartEvent $event) {
+        // Reset the number of times hero power has been used this turn
+        $this->numUsedThisTurn = 0;
+
+        return $this;
+    }
+
 
     /**
      *

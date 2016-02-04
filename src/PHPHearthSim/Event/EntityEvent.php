@@ -21,6 +21,20 @@ use Symfony\Component\EventDispatcher\Event;
 abstract class EntityEvent extends Event {
 
     /**
+     * Constant for board end turn
+     *
+     * @var string
+     */
+    const EVENT_BOARD_TURN_END = 'board.turn_end';
+
+    /**
+     * Constant for board start turn
+     *
+     * @var string
+     */
+    const EVENT_BOARD_TURN_START = 'board.turn_start';
+
+    /**
      * Constant for entity create event
      *
      * @var string

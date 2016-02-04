@@ -202,4 +202,27 @@ class Player {
     public function adjustHealValue($value) {
         return $value;
     }
+
+    /**
+     * Gateway function to add entity to battlefield
+     *
+     * @see \PHPHearthSim\Model\Board->addToBattlefield
+     *
+     * @param \PHPHearthSim\Model\Entity $entity
+     * @param int|null $newPosition The new entity position, if null we place it at the end
+     *
+     * @return boolean "true" if entity was placed on battlefield, "false" if entity was not placed on battlefield
+     */
+    public function addToBattlefield(Entity $entity, $newPosition = null) {
+        return $this->getBoard()->addToBattlefield($entity, $this, $newPosition);
+    }
+
+    /**
+     * Helper function to get battlefield for this player
+     *
+     * @return array
+     */
+    public function getBattlefield() {
+        return $this->getBoard()->getBattlefieldForPlayer($this);
+    }
 }

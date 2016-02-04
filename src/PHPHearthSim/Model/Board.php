@@ -11,9 +11,14 @@ namespace PHPHearthSim\Model;
 
 use PHPHearthSim\Model\Minion;
 use PHPHearthSim\Model\Player;
+
 use PHPHearthSim\Event\EntityEvent;
+use PHPHearthSim\Event\Board\BoardTurnEndEvent;
+use PHPHearthSim\Event\Board\BoardTurnStartEvent;
+
 use Symfony\Component\EventDispatcher\EventDispatcher;
 
+use PHPHearthSim\Exception\Board\InvalidBattlefieldOwnerException;
 use PHPHearthSim\Exception\Board\InvalidBattlefieldEntityException;
 use PHPHearthSim\Exception\Board\MinionNotFoundAtPositionException;
 
@@ -90,7 +95,10 @@ class Board {
     /**
      * The battlefield. List of all active units and their placement
      * Two dimentional array where first index is the player and the second index is the position
-     * Example: [0 => [0 => <Entity>, 1 => <Entity>], 1 => [0 => <Entity>]]
+     * Example: [0 =>
+     *              [0 => <Entity>, 1 => <Entity>],
+     *              1 => [0 => <Entity>]
+     *          ]
      *
      * @var array
      */
@@ -320,12 +328,22 @@ class Board {
      * @return \PHPHearthSim\Model\Board
      */
     public function endTurn() {
+        // Emit end turn signal
+        $this->emit(EntityEvent::EVENT_BOARD_TURN_END,
+                    new BoardTurnEndEvent(['turn' => $this->turn,
+                                           'activePlayer' => $this->getActivePlayer()]));
+
         // Increment turn counter
         $this->turn++;
         // Call end turn for current active player
         $this->getActivePlayer()->endTurn();
         // Toggle active player and trigger start turn for new active player
         $this->toggleActivePlayer()->getActivePlayer()->startTurn();
+
+        // Emit start turn signal
+        $this->emit(EntityEvent::EVENT_BOARD_TURN_START,
+                new BoardTurnStartEvent(['turn' => $this->turn,
+                                       'activePlayer' => $this->getActivePlayer()]));
 
         return $this;
     }
@@ -350,10 +368,15 @@ class Board {
      * @param \PHPHearthSim\Model\Player $player
      * @param int|null $newPosition The new entity position, if null we place it at the end
      *
+     * @throws \PHPHearthSim\Exception\Board\InvalidBattlefieldOwnerException when player is not instance of Player
      * @throws \PHPHearthSim\Exception\Board\InvalidBattlefieldEntityException when entity is not instance of Minion
      * @return boolean "true" if entity was placed on battlefield, "false" if entity was not placed on battlefield
      */
-    public function addToBattlefield(Entity $entity, $player, $newPosition = null) {
+    public function addToBattlefield(Entity $entity, Player $player, $newPosition = null) {
+        // Make sure $player is a Player
+        if (!$player instanceof Player) {
+            throw new InvalidBattlefieldOwnerException('Owner of entity passed is not an instance of type Player');
+        }
         // Make sure entity is a minion, can't play spell on the battlefield!
         if (!$entity instanceof Minion) {
             throw new InvalidBattlefieldEntityException('Only entities of type Minion can be placed on the battlefield');
@@ -376,6 +399,7 @@ class Board {
 
             // Insert minion at position
             array_splice($minions, $newPosition + 1, 0, [$entity]);
+
             // Update battlefield for player
             $this->battlefield[$player->getid()] = $minions;
 
@@ -397,7 +421,7 @@ class Board {
     public function getMinionOnBattlefieldAtPosition(Player $player, $position) {
         $minions = $this->getBattlefieldForPlayer($player);
 
-        if (!isset($minions[$posiion])) {
+        if (!isset($minions[$position])) {
             throw new MinionNotFoundAtPositionException('No minion was found at position ' . $position . ' for player ' . $player->getName());
         }
 
