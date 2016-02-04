@@ -53,7 +53,12 @@ abstract class HeroPower extends Entity {
         parent::__construct($options);
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     *
+     * @param \PHPHearthSim\Event\Board\BoardTurnStartEvent $event
+     * @return \PHPHearthSim\Model\HeroPower;
+     */
     public function onBoardTurnStart(BoardTurnStartEvent $event) {
         // Reset the number of times hero power has been used this turn
         $this->numUsedThisTurn = 0;
@@ -61,8 +66,8 @@ abstract class HeroPower extends Entity {
         return $this;
     }
 
-
     /**
+     * Check if heropower can be used this turn
      *
      * @return boolean Returns true if the hero power can be used, false if not
      */
