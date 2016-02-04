@@ -9,6 +9,7 @@
  */
 namespace PHPHearthSim\Game\HeroPower\Warrior;
 
+use PHPHearthSim\Model\Entity;
 use PHPHearthSim\Model\HeroPower;
 
 /**
