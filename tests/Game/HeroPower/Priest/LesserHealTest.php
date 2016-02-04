@@ -38,6 +38,39 @@ class LesserHealTest extends PriestVsWarriorTestCase {
         $this->assertEquals(3, $entity->getHealth());
     }
 
+    public function testLesserHealOnMinionOverheal() {
+        // Create a zombie chow
+        $entity = new ZombieChow(['board' => $this->board,
+                'owner' => $this->board->getMe()]);
+
+        // Minion take 1 damage
+        $entity->takeDamage(1);
+
+        // Make sure health == 2 (3-1)
+        $this->assertEquals(2, $entity->getHealth());
+
+        // Use the hero power
+        $this->board->getMe()->getHero()->useHeroPower($entity);
+
+        // Make sure health == 3
+        $this->assertEquals(3, $entity->getHealth());
+    }
+
+    public function testLesserHealOnMinionWithFullHealth() {
+        // Create a zombie chow
+        $entity = new ZombieChow(['board' => $this->board,
+                'owner' => $this->board->getMe()]);
+
+        // Make sure health == 3
+        $this->assertEquals(3, $entity->getHealth());
+
+        // Use the hero power
+        $this->board->getMe()->getHero()->useHeroPower($entity);
+
+        // Make sure health == 3
+        $this->assertEquals(3, $entity->getHealth());
+    }
+
     public function testLesserHealOnHero() {
         // Minion take 2 damage
         $this->board->getMe()->getHero()->takeDamage(4);
