@@ -45,5 +45,81 @@ Now you are free to play with the code base and hopefully make something cool! :
 # TODO / FEATURES
 
 ## Game mechanics
-- [x] Game board
-- [ ] 
+- [x] ~~General event handling~~
+- [ ] End Turn / Start Turn
+- [ ] "The coin" / Cards that give mana ramp / boost
+- [ ] Mana crystals and mana handling
+- [ ] Minion attacking other minion on battlefield
+- [ ] Playing cards from hand to the battlefield
+- [ ] Playing spells from hand
+- [ ] Draw cards from deck
+- [ ] Place destroyed minions on board to graveyard
+- [ ] Fatiuge
+- [ ] Tribe synergy
+
+### Game altering minions (uncomplete list)
+- [x] ~~Auchenai Soulpriest~~
+- [ ] Brann Bronzebeard
+- [ ] Baron Rivendare
+- 
+
+### Minion effects
+- [ ] Battlecry
+- [x] ~~Deathrattle~~
+- [ ] Charge
+- [ ] Taunt
+- [ ] Divine shield
+- [ ] Stealth
+- [ ] Enrage
+- [ ] Windfury
+- [ ] Immune
+- [ ] Untargetable
+- [ ] Freeze / Frozen
+- [ ] Silence
+- [ ] Spell damage
+- [ ] Return to hand
+- [ ] Transform (i.e faceless manipulator)
+- [ ] Auras (like Dire Wolf Alpha)
+- [ ] Temporary buffs or debuffs that only last this turn (Abusive Seargant)
+
+### Card effects
+- [ ] Choose One (Druid)
+- [ ] Combo (Rogue)
+- [ ] Overload (Shaman)
+
+### Hero Powers
+- [x] ~~General hero power support~~
+- [ ] Druid: Shapeshift
+- [ ] Hunter: Steadyshot
+- [ ] Mage: Fireblast
+- [ ] Paladin: Reinforce
+- [x] ~~Priest: Lesser Heal~~
+- [ ] Rogue: Dagger Mastery
+- [x] ~~Shaman: Totemic Call~~
+- [ ] Warlock: Life Tap
+- [x] ~~Warrior: Armor Up!~~
+
+### Weapons
+- [ ] General weapon support
+
+### Secrets
+- [ ] General secret support
+
+### Limitations
+- [ ] Deck limitations (maximum/minimum of 30 cards in deck at start)
+- [x] ~~Minions on board (maximum of 7 per side)~~
+- [ ] Cards on hand (maximum of 10 cards per hand)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
