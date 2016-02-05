@@ -41,3 +41,9 @@ OK (6 tests, 16 assertions)
 This verifies that your system can run the required simulations.
 
 Now you are free to play with the code base and hopefully make something cool! :-)
+
+# TODO / FEATURES
+
+## Game mechanics
+- [x] Game board
+- [ ] 
