@@ -62,7 +62,7 @@ Now you are free to play with the code base and hopefully make something cool! :
 - [ ] Brann Bronzebeard
 - [ ] Baron Rivendare
 
-### Minion effects
+### Minion/spell effects
 - [ ] Battlecry
 - [x] ~~Deathrattle~~
 - [ ] Charge
@@ -80,6 +80,7 @@ Now you are free to play with the code base and hopefully make something cool! :
 - [ ] Transform (i.e faceless manipulator)
 - [ ] Auras (like Dire Wolf Alpha)
 - [ ] Temporary buffs or debuffs that only last this turn (Abusive Seargant)
+- [ ] Discover 
 
 ### Card effects
 - [ ] Choose One (Druid)
