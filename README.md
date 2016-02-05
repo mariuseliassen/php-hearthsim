@@ -61,7 +61,6 @@ Now you are free to play with the code base and hopefully make something cool! :
 - [x] ~~Auchenai Soulpriest~~
 - [ ] Brann Bronzebeard
 - [ ] Baron Rivendare
-- 
 
 ### Minion effects
 - [ ] Battlecry
@@ -86,6 +85,27 @@ Now you are free to play with the code base and hopefully make something cool! :
 - [ ] Choose One (Druid)
 - [ ] Combo (Rogue)
 - [ ] Overload (Shaman)
+
+### Heroes
+- [ ] Druid
+  - [ ] Malfurion Stormrage
+- [ ] Hunter
+  - [ ] Rexxar
+  - [ ] Alleria Windrunner
+- [ ] Mage
+  - [ ] Jaina Proudmoore
+  - [ ] Medivh
+- [ ]  Paladin
+  - [ ] Uther Lightbringer
+- [x] ~~Priest~~
+  - [x] ~~Auduin Wrynn~~
+- [ ] Rogue
+  - [ ] Valeera Sanguinar
+- [x] ~~Shaman~~
+  - [x] ~~Thrall~~
+- [ ] Warrior
+  - [x] ~~Grommash Hellscream~~
+  - [ ] Magni Bronzebeard
 
 ### Hero Powers
 - [x] ~~General hero power support~~
