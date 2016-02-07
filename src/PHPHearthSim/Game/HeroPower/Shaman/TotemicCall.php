@@ -9,6 +9,7 @@
  */
 namespace PHPHearthSim\Game\HeroPower\Shaman;
 
+use PHPHearthSim\Model\EntityClass\Shaman;
 use PHPHearthSim\Model\Entity;
 use PHPHearthSim\Model\HeroPower;
 use PHPHearthSim\Game\Token\H\HealingTotem;
@@ -22,7 +23,7 @@ use PHPHearthSim\Game\Token\W\WrathOfAirTotem;
  *
  * @class TotemicCall
  */
-class TotemicCall extends HeroPower {
+class TotemicCall extends HeroPower implements Shaman {
 
     /** {@inheritDoc} */
     protected $name = 'Totemic Call';

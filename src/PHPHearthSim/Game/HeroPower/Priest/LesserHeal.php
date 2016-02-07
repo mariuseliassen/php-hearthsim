@@ -9,6 +9,7 @@
  */
 namespace PHPHearthSim\Game\HeroPower\Priest;
 
+use PHPHearthSim\Model\EntityClass\Priest;
 use PHPHearthSim\Model\HeroPower;
 use PHPHearthSim\Model\Entity;
 
@@ -18,7 +19,7 @@ use PHPHearthSim\Model\Entity;
  *
  * @class LesserHeal
  */
-class LesserHeal extends HeroPower {
+class LesserHeal extends HeroPower implements Priest {
 
     /** {@inheritDoc} */
     protected $name = 'Lesser Heal';

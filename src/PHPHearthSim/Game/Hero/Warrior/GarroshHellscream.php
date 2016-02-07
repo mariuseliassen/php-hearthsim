@@ -9,6 +9,7 @@
  */
 namespace PHPHearthSim\Game\Hero\Warrior;
 
+use PHPHearthSim\Model\EntityClass\Warrior;
 use PHPHearthSim\Model\Hero;
 use PHPHearthSim\Game\HeroPower\Warrior\ArmorUp;
 
@@ -21,7 +22,7 @@ use PHPHearthSim\Game\HeroPower\Warrior\ArmorUp;
  *
  * @class GarroshHellscream
  */
-class GarroshHellscream extends Hero {
+class GarroshHellscream extends Hero implements Warrior {
 
     /** {@inheritDoc} */
     protected $name = 'Garrosh Hellscream';
