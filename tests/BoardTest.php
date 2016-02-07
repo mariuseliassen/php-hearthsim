@@ -13,7 +13,7 @@ class BoardTest extends TestCase
 {
 
     /**
-     * Tests the basic methods of Entity class
+     * Tests the basic methods of Board class
      */
     public function testBoardPlayers()
     {
