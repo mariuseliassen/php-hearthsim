@@ -48,7 +48,7 @@ Now you are free to play with the code base and hopefully make something cool! :
 - [x] ~~General event handling~~
 - [ ] End Turn / Start Turn
 - [ ] "The coin" / Cards that give mana ramp / boost
-- [ ] Mana crystals and mana handling
+- [x] ~~Mana crystals and mana handling~~
 - [ ] Minion attacking other minion on battlefield
 - [ ] Playing cards from hand to the battlefield
 - [ ] Playing spells from hand
