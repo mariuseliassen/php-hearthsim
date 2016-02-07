@@ -46,7 +46,7 @@ Now you are free to play with the code base and hopefully make something cool! :
 
 ## Game mechanics
 - [x] ~~General event handling~~
-- [ ] End Turn / Start Turn
+- [x] ~~End Turn / Start Turn~~
 - [ ] "The coin" / Cards that give mana ramp / boost
 - [x] ~~Mana crystals and mana handling~~
 - [ ] Minion attacking other minion on battlefield
