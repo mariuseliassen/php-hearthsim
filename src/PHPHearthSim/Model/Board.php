@@ -50,6 +50,14 @@ class Board {
      */
     const MAX_BATTLEFIELD_SIZE = 7;
 
+
+    /**
+     * Maxmimum number of mana crystals beginning of turn
+     *
+     * @var int
+     */
+    const MAX_MANA_CRYSTALS = 10;
+
     /**
      * The entity counter
      *
@@ -62,7 +70,7 @@ class Board {
      *
      * @var int
      */
-    protected $turn;
+    protected $turn = 1;
 
     /**
      * My player
@@ -333,17 +341,31 @@ class Board {
                     new BoardTurnEndEvent(['turn' => $this->turn,
                                            'activePlayer' => $this->getActivePlayer()]));
 
+        // Call end turn for current active player
+        $this->getActivePlayer()->endTurn($this->turn);
+
+        // Call start turn
+        $this->startTurn();
+
+        return $this;
+    }
+
+    /**
+     * Method to handle start turn logic
+     *
+     * @return \PHPHearthSim\Model\Board
+     */
+    public function startTurn() {
         // Increment turn counter
         $this->turn++;
-        // Call end turn for current active player
-        $this->getActivePlayer()->endTurn();
+
         // Toggle active player and trigger start turn for new active player
-        $this->toggleActivePlayer()->getActivePlayer()->startTurn();
+        $this->toggleActivePlayer()->getActivePlayer()->startTurn($this->turn);
 
         // Emit start turn signal
         $this->emit(EntityEvent::EVENT_BOARD_TURN_START,
                 new BoardTurnStartEvent(['turn' => $this->turn,
-                                       'activePlayer' => $this->getActivePlayer()]));
+                                         'activePlayer' => $this->getActivePlayer()]));
 
         return $this;
     }
