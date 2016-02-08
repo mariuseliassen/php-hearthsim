@@ -710,12 +710,14 @@ abstract class Entity extends EntityEvents implements EntityInterface {
 
         // Check and adjust values
         if ($from != null) {
+            // Professor Velen doubles the healing received
+            if ($this->getBoard()->isOnBattlefield('PHPHearthSim\Game\Minion\P\ProfessorVelen', $from->getOwner())) {
+                $amount = $amount * 2;
+            }
+
             // Auchenai Soulpriest turns healing into damage
             if ($this->getBoard()->isOnBattlefield('PHPHearthSim\Game\Minion\A\AuchenaiSoulpriest', $from->getOwner())) {
                 return $this->takeDamage($amount, $from);
-            // Professor Velen doubles the healing received
-            } else if ($this->getBoard()->isOnBattlefield('PHPHearthSim\Game\Minion\P\ProfessorVelen', $from->getOwner())) {
-                $amount = $amount * 2;
             }
         }
 
@@ -756,5 +758,6 @@ abstract class Entity extends EntityEvents implements EntityInterface {
 
         return $this;
     }
+
 
 }

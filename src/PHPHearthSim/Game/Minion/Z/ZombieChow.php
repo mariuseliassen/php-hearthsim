@@ -42,7 +42,6 @@ class ZombieChow extends Entity implements Neutral, Minion, Deathrattle {
      * Restore 5 Health to the enemy hero.
      */
     public function deathrattle() {
-        // We pass it to adjustHealValue to support interactions like Professor Velen
         $this->getEnemyHero()->healFor(5, $this);
     }
 

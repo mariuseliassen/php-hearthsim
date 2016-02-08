@@ -12,9 +12,7 @@ namespace PHPHearthSim\Model\Mechanic;
 /**
  * Interface for Deathrattle
  *
- * @author Marius
  * @class Deathrattle
- *
  */
 interface Deathrattle {
 
