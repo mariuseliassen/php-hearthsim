@@ -11,6 +11,7 @@ namespace PHPHearthSim\Model;
 
 use PHPHearthSim\Model\Entity;
 use PHPHearthSim\Event\EntityEvent;
+use PHPHearthSim\Model\Minion;
 use PHPHearthSim\Model\HeroPower;
 
 /**
@@ -19,7 +20,7 @@ use PHPHearthSim\Model\HeroPower;
  *
  * @class Hero
  */
-abstract class Hero extends Entity {
+abstract class Hero extends Minion {
 
     /** {@inheritDoc} */
     protected $rarity = Entity::RARITY_UNIQUE;

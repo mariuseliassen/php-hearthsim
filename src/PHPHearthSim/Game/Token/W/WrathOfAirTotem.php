@@ -20,7 +20,7 @@ use PHPHearthSim\Model\Entity;
  *
  * @class WrathOfAirTotem
  */
-class WrathOfAirTotem extends Entity implements Shaman, Minion, Token {
+class WrathOfAirTotem extends Minion implements Shaman, Token {
 
     /** {@inheritDoc} */
     protected $rarity = Entity::RARITY_COMMON;

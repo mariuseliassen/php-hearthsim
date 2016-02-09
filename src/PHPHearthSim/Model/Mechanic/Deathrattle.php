@@ -9,16 +9,20 @@
  */
 namespace PHPHearthSim\Model\Mechanic;
 
+use PHPHearthSim\Model\Entity;
+
 /**
  * Interface for Deathrattle
  *
+ * @author Switchback
  * @class Deathrattle
+ *
  */
 interface Deathrattle {
 
     /**
-     * Trigger for deathrattle
+     * Execute deathrattle
      */
-    public function deathrattle();
+    public function execute(Entity $entity);
 
 }

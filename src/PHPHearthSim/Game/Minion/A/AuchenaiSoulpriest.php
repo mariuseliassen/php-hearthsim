@@ -19,7 +19,7 @@ use PHPHearthSim\Model\Entity;
  *
  * @class AuchenaiSoulpriest
  */
-class AuchenaiSoulpriest extends Entity implements Priest, Minion {
+class AuchenaiSoulpriest extends Minion implements Priest {
 
     /** {@inheritDoc} */
     protected $rarity = Entity::RARITY_RARE;

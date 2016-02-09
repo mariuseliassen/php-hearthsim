@@ -12,7 +12,7 @@ namespace PHPHearthSim\Game\Minion\Z;
 use PHPHearthSim\Model\EntityClass\Neutral;
 use PHPHearthSim\Model\Minion;
 use PHPHearthSim\Model\Entity;
-use PHPHearthSim\Model\Mechanic\Deathrattle;
+use PHPHearthSim\Game\Mechanic\Deathrattle\Z\ZombieChowDeathrattle;
 
 /**
  * Zombie Chow
@@ -20,7 +20,7 @@ use PHPHearthSim\Model\Mechanic\Deathrattle;
  *
  * @class ZombieChow
  */
-class ZombieChow extends Entity implements Neutral, Minion, Deathrattle {
+class ZombieChow extends Minion implements Neutral {
 
     /** {@inheritDoc} */
     protected $rarity = Entity::RARITY_COMMON;
@@ -38,11 +38,14 @@ class ZombieChow extends Entity implements Neutral, Minion, Deathrattle {
     protected $baseHealth = 3;
 
     /**
-     * ZombieChow deathrattle:
-     * Restore 5 Health to the enemy hero.
-     */
-    public function deathrattle() {
-        $this->getEnemyHero()->healFor(5, $this);
+     * {@inheritDoc}
+     *
+     * @param array $options Options to set during initialization
+     * */
+    public function __construct($options = []) {
+        $options['deathrattle'] = [new ZombieChowDeathrattle()];
+
+        parent::__construct($options);
     }
 
 }

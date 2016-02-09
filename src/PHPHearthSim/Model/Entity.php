@@ -36,11 +36,7 @@ use PHPHearthSim\Event\Entity\EntityRemoveArmorEvent;
  * @property-read string $name get entity name
  * @property-read string $rarity get entity rarity
  * @property-read int $baseCost get entity base cost
- * @property-read int $baseHealth get entity base health
- * @property-read int $baseAttack get entity base attack
  * @property-read int $cost get entity cost
- * @property-read int $health get entity health
- * @property-read int $attack get entity attack
  */
 abstract class Entity extends EntityEvents implements EntityInterface {
 
@@ -102,7 +98,6 @@ abstract class Entity extends EntityEvents implements EntityInterface {
      */
     protected $adjustments = [];
 
-
     /**
      * The last signal that was received by another entity
      * Used mostly for debugging
@@ -136,38 +131,12 @@ abstract class Entity extends EntityEvents implements EntityInterface {
     protected $baseCost;
 
     /**
-     * The base health of a entity (before reduction or penalties from other adjustments)
-     *
-     * @var int
-     */
-    protected $baseHealth;
-
-    /**
-     * The base attack of a entity (before reduction or penalties from other adjustments)
-     * @var int
-     */
-    protected $baseAttack;
-
-    /**
      * The current calculated cost of entity (after reduction or penalties from other adjustments)
      *
      * @var int
      */
     protected $cost;
 
-    /**
-     * The current calculated attack of entity (after reduction or penalties from other adjustments)
-     *
-     * @var int
-     */
-    protected $attack;
-
-    /**
-     * The current calculated health of entity (after reduction or penalties from other adjustments)
-     *
-     * @var int
-     */
-    protected $health;
 
     /**
      * Get the traits for entity
@@ -176,13 +145,6 @@ abstract class Entity extends EntityEvents implements EntityInterface {
      */
     protected $traits;
 
-    /**
-     * If unit has been silenced.
-     * You can never remove a silence.
-     *
-     * @var boolean
-     */
-    protected $silenced = false;
 
     /**
      * Constructor
@@ -521,24 +483,6 @@ abstract class Entity extends EntityEvents implements EntityInterface {
     }
 
     /**
-     * Get the entity base health
-     *
-     * @return int
-     */
-    public function getBaseHealth() {
-        return $this->baseHealth;
-    }
-
-    /**
-     * Get the entity base attack
-     *
-     * @return int
-     */
-    public function getBaseAttack() {
-        return $this->baseAttack;
-    }
-
-    /**
      * Get the entity type
      *
      * @return string
@@ -554,51 +498,6 @@ abstract class Entity extends EntityEvents implements EntityInterface {
      */
     public function getCost() {
         return $this->cost;
-    }
-
-    /**
-     * Get the current entity health
-     *
-     * @return int
-     */
-    public function getHealth() {
-        $health = $baseHealth = $this->baseHealth;
-
-        foreach ($this->getAdjustments() as $adjustment) {
-            // check for health adjustments
-            switch ($adjustment->getType()) {
-                // Adjust the health, add or subtract value
-                case EntityAdjustment::ADJUSTMENT_HEALTH:
-                    $health += $adjustment->getValue();
-
-                    // Make sure health is never higher than maximum health
-                    if ($health > $baseHealth) {
-                        $health = $baseHealth;
-                    }
-
-                    break;
-
-                // Force new health value
-                case EntityAdjustment::SET_HEALTH:
-                    $health = $adjustment->getValue();
-                    break;
-
-                // TODO: Figure out what we do about "auras", like wolf that gives +1 attack to adjecent minions.
-                // Option 1) Use a AURA_ATTACK / AURA_HEALTH type and process them at the end
-                // Option 2) Use a different mechanic, not adjustments
-            }
-        }
-
-        return $health;
-    }
-
-    /**
-     * Get the current entity attack
-     *
-     * @return int
-     */
-    public function getAttack() {
-        return $this->attack;
     }
 
     /**
@@ -618,21 +517,6 @@ abstract class Entity extends EntityEvents implements EntityInterface {
         return false;
     }
 
-    /**
-     * temporary
-     * TODO: implement or remove enterBattlefield
-     */
-    public function enterBattlefield() {
-
-    }
-
-    /**
-     * temporary
-     * TODO: implement or remove exitBattlefield
-     */
-    public function exitBattlefield() {
-
-    }
 
     /**
      * temporary
@@ -650,114 +534,4 @@ abstract class Entity extends EntityEvents implements EntityInterface {
     public function doDamage() {
 
     }
-
-    /**
-     * Called for each minion that is on the battlefield
-     * Useful for entities that alter game behavior, like Auchenai Soulpriest or Brann Bronzebeard
-     *
-     * @return \PHPHearthSim\Model\Entity;
-     */
-    public function onBattlefield() {
-       return $this;
-    }
-
-    /**
-     * Function to return if unit has been silenced or not
-     *
-     * @return boolean
-     */
-    public function isSilenced() {
-        return $this->silenced;
-    }
-
-    /**
-     * When the entity takes damage
-     *
-     * @param number $amount The amount of damage taken
-     * @param \PHPHearthSim\Model\Entity $from The entity that did damage to us
-     * @return \PHPHearthSim\Model\Entity
-     */
-    public function takeDamage($amount = 0, Entity $from = null) {
-        // Just make sure damage is a positive value so we don't get any wierd interactions
-        if ($amount < 0) {
-            $amount = 0;
-        }
-
-        // Make sure damage is taken
-        if ($amount > 0) {
-            // Apply adjustment to health
-            $this->addAdjustment(new EntityAdjustment(EntityAdjustment::ADJUSTMENT_HEALTH, -$amount));
-
-            // Emit that we took damage
-            $this->emit(EntityEvent::EVENT_ENTITY_TAKE_DAMAGE, ['amount' => $amount]);
-        }
-
-        return $this;
-    }
-
-    /**
-     * Trigger healing on entity
-     *
-     * @param number $amount The amount of healing received
-     * @param \PHPHearthSim\Model\Entity $from The entity that did the healing to us
-     * @return \PHPHearthSim\Model\Entity
-     */
-    public function healFor($amount = 0, Entity $from = null) {
-        // Just make sure damage is a positive value so we don't get any wierd interactions
-        if ($amount < 0) {
-            $amount = 0;
-        }
-
-        // Check and adjust values
-        if ($from != null) {
-            // Professor Velen doubles the healing received
-            if ($this->getBoard()->isOnBattlefield('PHPHearthSim\Game\Minion\P\ProfessorVelen', $from->getOwner())) {
-                $amount = $amount * 2;
-            }
-
-            // Auchenai Soulpriest turns healing into damage
-            if ($this->getBoard()->isOnBattlefield('PHPHearthSim\Game\Minion\A\AuchenaiSoulpriest', $from->getOwner())) {
-                return $this->takeDamage($amount, $from);
-            }
-        }
-
-        // Apply adjustment to health
-        $this->addAdjustment(new EntityAdjustment(EntityAdjustment::ADJUSTMENT_HEALTH, $amount));
-
-        // Emit that we received healing
-        $this->emit(EntityEvent::EVENT_ENTITY_RECEIVE_HEAL, ['amount' => $amount]);
-
-        return $this;
-    }
-
-    /**
-     * When the entity is destroyed
-     *
-     * @return \PHPHearthSim\Model\Entity;
-     */
-    public function destroy() {
-        if (!$this->isSilenced() && $this instanceof Deathrattle) {
-            // TODO: see if it matters what order the emit and deathrattle() is called.
-            $this->emit(EntityEvent::EVENT_ENTITY_DEATHRATTLE);
-            $this->deathrattle();
-        }
-
-        return $this;
-    }
-
-    /**
-     * Silence the entity, removing current buffs and deathrattle effects
-     * TODO: Need a better way to handle deathrattle, for example Soul of the Forest can be applied to existing minions.
-     *
-     * @return \PHPHearthSim\Model\Entity
-     */
-    public function silence() {
-        $this->silenced = true;
-
-        // TODO: Loop and remove buffs or debuffs.
-
-        return $this;
-    }
-
-
 }
