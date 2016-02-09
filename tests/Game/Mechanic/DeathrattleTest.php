@@ -19,7 +19,7 @@ class DeathrattleTest extends TestCase {
                                   'owner' => $this->board->getMe()]);
 
         // Test deathrattle interface
-        $this->assertInstanceOf('PHPHearthSim\\Model\\Mechanic\\Deathrattle', $entity);
+        $this->assertInstanceOf('PHPHearthSim\\Model\\Mechanic\\Deathrattle', $entity->getDeathrattleByIndex(0));
 
         // Hero take some damage, from 30 (base) - 10 = 20.
         $this->board->getOpponent()->getHero()->takeDamage(10);
