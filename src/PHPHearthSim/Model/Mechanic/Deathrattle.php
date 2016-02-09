@@ -22,6 +22,9 @@ interface Deathrattle {
 
     /**
      * Execute deathrattle
+     *
+     * @param Entity $entity The entity that triggered the deathrattle
+     * @return void
      */
     public function execute(Entity $entity);
 
