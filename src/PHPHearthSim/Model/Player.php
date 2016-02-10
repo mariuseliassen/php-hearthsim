@@ -408,6 +408,24 @@ class Player {
     }
 
     /**
+     * Set turn start mana
+     *
+     * @param int $mana The turn start mana
+     *
+     * @return \PHPHearthSim\Model\Player
+     */
+    public function setTurnStartMana($mana = 0) {
+        $this->turnStartMana = $mana;
+
+        // Make sure mana crystals never exceed maximum set by board
+        if ($this->turnStartMana > Board::MAX_MANA_CRYSTALS) {
+            $this->turnStartMana = Board::MAX_MANA_CRYSTALS;
+        }
+
+        return $this;
+    }
+
+    /**
      * Method to correcly make sure we have enough mana and exhaust it.
      *
      * @param int $amount The amount of mana to use

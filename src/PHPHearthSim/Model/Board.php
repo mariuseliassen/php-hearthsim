@@ -472,13 +472,54 @@ class Board {
      * Check if a unit is on the battlefield for a specific player
      * Optional flag to check if unit is also not silenced
      *
-     * @param string $entityName
+     * @param string|Minion $entity
      * @param \PHPHearthSim\Model\Player $player
      * @param bool $checkIfSilenced If true flag then we also check that the unit is not silenced
      *
      * @return boolean
      */
-    public function isOnBattlefield($entityName, Player $player, $checkIfSilenced = true) {
+    public function isOnBattlefield($entity, Player $player, $checkIfSilenced = true) {
+        // Get minions on battlefield
+        $minions = $this->getBattlefieldForPlayer($player);
+
+        // No minions on board
+        if (empty($minions)) {
+            return false;
+        }
+
+        // Not found flag
+        $found = false;
+
+        // Loop through minions
+        foreach ($minions as $position => $minion) {
+
+            if ($entity instanceof Minion) {
+                // Found by id match
+                if ($entity->getId() === $minion->getId()) {
+                    $found = true;
+                    break;
+                }
+            } else {
+                // We found a minion that we were looking for by string match
+                if (is_a($minion, $entity)) {
+                    $found = true;
+                    break;
+                }
+            }
+        }
+
+        if ($found) {
+            // Only return true if we are not checking silence flag, or if unit is not silenced
+            if (!$checkIfSilenced || ($checkIfSilenced && !$minion->isSilenced())) {
+                return true;
+            }
+        }
+
+        // No minions found
+        return false;
+    }
+
+    public function removeFromBattlefield(Minion $entity, Player $player) {
         // Get minions on battlefield
         $minions = $this->getBattlefieldForPlayer($player);
 
@@ -489,16 +530,18 @@ class Board {
 
         // Loop through minions
         foreach ($minions as $position => $minion) {
-            // We found a minion that we were looking for
-            if (is_a($minion, $entityName)) {
-                // Only return true if we are not checking silence flag, or if unit is not silenced
-                if (!$checkIfSilenced || ($checkIfSilenced && !$minion->isSilenced())) {
-                    return true;
-                }
+            // Found by id match
+            if ($entity->getId() === $minion->getId()) {
+                // remove at position
+                array_splice($this->battlefield[$player->getId()], $position, 1);
+
+                // TODO: Add minion to graveyard list
+
+                return true;
             }
         }
 
-        // No minions found
+        // Not found
         return false;
     }
 }

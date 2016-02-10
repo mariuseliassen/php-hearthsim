@@ -9,6 +9,8 @@
  */
 namespace PHPHearthSim\Tests;
 
+use PHPHearthSim\Game\Minion\Z\ZombieChow;
+
 class BoardTest extends TestCase
 {
 
@@ -25,5 +27,25 @@ class BoardTest extends TestCase
         $this->assertInstanceOf('PHPHearthSim\Model\Board', $this->board->getOpponent()->getBoard());
     }
 
+    public function testAddAndRemoveMinionFromBattlefieldMinionNotFoundAtPositionException() {
+        // MinionNotFoundAtPositionException expected
+        $this->setExpectedException('PHPHearthSim\\Exception\\Board\\MinionNotFoundAtPositionException');
+
+        // Add a zombie chow to me
+        $entity = new ZombieChow(['board' => $this->board, 'owner' => $this->board->getMe()]);
+
+        // Add zombie chow to battlefield (pos 0 by default)
+        $this->board->addToBattlefield($entity, $this->board->getMe());
+
+        // Test getMinionOnBattlefieldAtPosition()
+        $this->assertInstanceOf('PHPHearthSim\\Game\\Minion\\Z\\ZombieChow',
+                $this->board->getMinionOnBattlefieldAtPosition($this->board->getMe(), 0));
+
+        // Destroy minion, should automaticly be removed
+        $entity->destroy();
+
+        // This should throw MinionNotFoundAtPositionException now
+        $this->board->getMinionOnBattlefieldAtPosition($this->board->getMe(), 0);
+    }
 
 }

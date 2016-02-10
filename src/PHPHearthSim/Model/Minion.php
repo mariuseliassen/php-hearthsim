@@ -160,7 +160,30 @@ abstract class Minion extends Entity {
 
         }
 
+        // Remove from board if present
+        if ($this->isOnBattlefield()) {
+            $this->removeFromBattlefield();
+        }
+
         return $this;
+    }
+
+    /**
+     * Check if this minion is present on the board
+     *
+     * @return boolean True if found, false if not found on battlefield for player
+     */
+    public function isOnBattlefield() {
+        return ($this->board->isOnBattlefield($this, $this->getOwner()));
+    }
+
+    /**
+     * Remove this minion from board
+     *
+     * @return boolean True if removed, false if not removed
+     */
+    public function removeFromBattlefield() {
+        return $this->board->removeFromBattlefield($this, $this->getOwner());
     }
 
     /**
