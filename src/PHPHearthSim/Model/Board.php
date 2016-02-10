@@ -519,6 +519,14 @@ class Board {
         return false;
     }
 
+    /**
+     * Remove a minion from the battlefield for a player
+     *
+     * @param Minion $entity The minion to remove
+     * @param Player $player The player that owns the minion
+     *
+     * @return boolean
+     */
     public function removeFromBattlefield(Minion $entity, Player $player) {
         // Get minions on battlefield
         $minions = $this->getBattlefieldForPlayer($player);
