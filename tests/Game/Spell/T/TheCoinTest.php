@@ -43,8 +43,8 @@ class TheCoinTest extends TestCase {
         $this->assertEquals(1, $this->board->getOpponent()->getAvailableMana());
         $this->assertEquals(1, $this->board->getMe()->getAvailableMana());
 
-        // Play the spell for "opponent"
-        $this->entity->play();
+        // Cast the spell for "opponent"
+        $this->entity->cast();
 
         // Make sure only "opponent" gained mana and not opponent
         $this->assertEquals(2, $this->board->getOpponent()->getAvailableMana());
@@ -82,8 +82,8 @@ class TheCoinTest extends TestCase {
         // Make sure opponent has 10 mana
         $this->assertEquals(10, $this->board->getOpponent()->getAvailableMana());
 
-        // Play the spell for "opponent"
-        $this->entity->play();
+        // Cast the spell for "opponent"
+        $this->entity->cast();
 
         // Make sure opponent still only has 10 mana
         $this->assertEquals(10, $this->board->getOpponent()->getAvailableMana());

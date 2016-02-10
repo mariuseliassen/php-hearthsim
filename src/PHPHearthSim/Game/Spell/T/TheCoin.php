@@ -34,7 +34,7 @@ class TheCoin extends Spell implements Neutral, Basic {
     protected $name = 'The Coin';
 
     /** {@inheritDoc} */
-    public function play(Entity $target = null) {
+    public function cast(Entity $target = null) {
         // Gain 1 temporary mana crystal
         $this->getOwner()->gainManaCrystals(1, true, true);
 

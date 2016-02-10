@@ -26,7 +26,7 @@ abstract class Spell extends Entity {
      *
      * @return \PHPHearthSim\Model\Spell
      */
-    public function play(Entity $target = null) {
+    public function cast(Entity $target = null) {
         return $this;
     }
 
