@@ -13,6 +13,7 @@ use PHPHearthSim\Model\EntityClass\Neutral;
 use PHPHearthSim\Model\Minion;
 use PHPHearthSim\Model\Entity;
 use PHPHearthSim\Game\Mechanic\Deathrattle\Z\ZombieChowDeathrattle;
+use PHPHearthSim\Model\Set\Naxxramas;
 
 /**
  * Zombie Chow
@@ -20,7 +21,7 @@ use PHPHearthSim\Game\Mechanic\Deathrattle\Z\ZombieChowDeathrattle;
  *
  * @class ZombieChow
  */
-class ZombieChow extends Minion implements Neutral {
+class ZombieChow extends Minion implements Neutral, Naxxramas {
 
     /** {@inheritDoc} */
     protected $rarity = Entity::RARITY_COMMON;
