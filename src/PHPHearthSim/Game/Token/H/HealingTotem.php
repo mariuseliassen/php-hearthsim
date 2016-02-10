@@ -13,6 +13,7 @@ use PHPHearthSim\Model\EntityClass\Shaman;
 use PHPHearthSim\Model\Minion;
 use PHPHearthSim\Model\Token;
 use PHPHearthSim\Model\Entity;
+use PHPHearthSim\Model\Set\Basic;
 
 /**
  * Healing Totem
@@ -20,7 +21,7 @@ use PHPHearthSim\Model\Entity;
  *
  * @class HealingTotem
  */
-class HealingTotem extends Minion implements Shaman, Token {
+class HealingTotem extends Minion implements Shaman, Token, Basic {
 
     /** {@inheritDoc} */
     protected $rarity = Entity::RARITY_COMMON;

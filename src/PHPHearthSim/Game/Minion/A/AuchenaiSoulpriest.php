@@ -12,6 +12,7 @@ namespace PHPHearthSim\Game\Minion\A;
 use PHPHearthSim\Model\EntityClass\Priest;
 use PHPHearthSim\Model\Minion;
 use PHPHearthSim\Model\Entity;
+use PHPHearthSim\Model\Set\Basic;
 
 /**
  * Auchenai Soulpriest
@@ -19,7 +20,7 @@ use PHPHearthSim\Model\Entity;
  *
  * @class AuchenaiSoulpriest
  */
-class AuchenaiSoulpriest extends Minion implements Priest {
+class AuchenaiSoulpriest extends Minion implements Priest, Basic {
 
     /** {@inheritDoc} */
     protected $rarity = Entity::RARITY_RARE;
