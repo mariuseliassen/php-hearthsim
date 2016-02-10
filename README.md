@@ -47,7 +47,7 @@ Now you are free to play with the code base and hopefully make something cool! :
 ## Game mechanics
 - [x] ~~General event handling~~
 - [x] ~~End Turn / Start Turn~~
-- [ ] "The coin" / Cards that give mana ramp / boost
+- [x] ~~"The coin" / Cards that give mana ramp / boost~~
 - [x] ~~Mana crystals and mana handling~~
 - [ ] Minion attacking other minion on battlefield
 - [ ] Playing cards from hand to the battlefield
@@ -80,6 +80,7 @@ Now you are free to play with the code base and hopefully make something cool! :
 - [ ] Transform (i.e faceless manipulator)
 - [ ] Auras (like Dire Wolf Alpha)
 - [ ] Temporary buffs or debuffs that only last this turn (Abusive Seargant)
+- [x] ~~Temporary mana~~
 - [ ] Discover 
 
 ### Card effects
@@ -128,6 +129,7 @@ Now you are free to play with the code base and hopefully make something cool! :
 
 ### Limitations
 - [ ] Deck limitations (maximum/minimum of 30 cards in deck at start)
+- [x] ~~Maximum mana without the possibility to go over 10 available total mana~~
 - [x] ~~Minions on board (maximum of 7 per side)~~
 - [ ] Cards on hand (maximum of 10 cards per hand)
 
