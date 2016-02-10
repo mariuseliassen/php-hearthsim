@@ -377,6 +377,7 @@ class Board {
      */
     private function toggleActivePlayer() {
         $newActivePlayer = ($this->getActivePlayer()->getId() == $this->getMe()->getId()) ? $this->getOpponent() : $this->getMe();
+
         $this->setActivePlayer($newActivePlayer);
 
         return $this;
@@ -441,8 +442,10 @@ class Board {
      * @return \PHPHearthSim\Model\Entity;
      */
     public function getMinionOnBattlefieldAtPosition(Player $player, $position) {
+        // Get all minions for player
         $minions = $this->getBattlefieldForPlayer($player);
 
+        // Check if we have a minion at the requested index
         if (!isset($minions[$position])) {
             throw new MinionNotFoundAtPositionException('No minion was found at position ' . $position . ' for player ' . $player->getName());
         }

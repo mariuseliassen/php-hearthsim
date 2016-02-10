@@ -10,6 +10,7 @@
 namespace PHPHearthSim\Tests\Game\Mechanic;
 
 use PHPHearthSim\Game\Minion\Z\ZombieChow;
+use PHPHearthSim\Game\Mechanic\Deathrattle\Z\ZombieChowDeathrattle;
 use PHPHearthSim\Tests\TestCase;
 
 class DeathrattleTest extends TestCase {
@@ -20,6 +21,9 @@ class DeathrattleTest extends TestCase {
 
         // Test deathrattle interface
         $this->assertInstanceOf('PHPHearthSim\\Model\\Mechanic\\Deathrattle', $entity->getDeathrattleByIndex(0));
+
+        // Test hasDeathrattle() method
+        $entity->hasDeathrattle(new ZombieChowDeathrattle());
 
         // Hero take some damage, from 30 (base) - 10 = 20.
         $this->board->getOpponent()->getHero()->takeDamage(10);

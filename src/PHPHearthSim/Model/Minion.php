@@ -195,14 +195,18 @@ abstract class Minion extends Entity {
      * @return boolean
      */
     public function hasDeathrattle(Deathrattle $deathrattle) {
+        // Make sure minion has deathrattle effect active
         if ($this->isDeathrattle()) {
+            // Loop over deathrattle effects
             foreach ($this->deathrattle as $myDeathrattle) {
-                if ($myDeathrattle instanceof $deathrattle) {
+                // See if deathrattle effect matches requested deathrattle
+                if (is_a($myDeathrattle, get_class($deathrattle))) {
                     return true;
                 }
             }
         }
 
+        // No matches found
         return false;
     }
 

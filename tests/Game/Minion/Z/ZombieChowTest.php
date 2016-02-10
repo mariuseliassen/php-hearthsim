@@ -47,6 +47,7 @@ class ZombieChowTest extends TestCase {
         $this->assertInstanceOf('PHPHearthSim\\Game\\Mechanic\\Deathrattle\\Z\\ZombieChowDeathrattle',
                 $this->entity->getDeathrattleByIndex(0));
 
+
         // Hero take some damage, from 30 (base) - 10 = 20.
         $this->board->getOpponent()->getHero()->takeDamage(10);
 
