@@ -11,16 +11,15 @@ namespace PHPHearthSim\Tests;
 
 use PHPHearthSim\Game\Minion\Z\ZombieChow;
 
-class EntityTest extends TestCase
+class MinionTest extends TestCase
 {
 
-    /**
-     * Tests the basic methods of Entity class
-     */
-    public function testEntity()
+    public function testMinion()
     {
         $entity = new ZombieChow(['board' => $this->board]);
 
+        // Test interface
+        $this->assertInstanceOf('PHPHearthSim\\Model\\Minion', $entity);
         // Test id
         $this->assertEquals('ENT_0001', $entity->getId());
         // Test name
