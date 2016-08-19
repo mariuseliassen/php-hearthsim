@@ -41,7 +41,7 @@ class LesserHeal extends HeroPower implements Priest {
      * @param \PHPHearthSim\Model\Entity $target
      * @return \PHPHearthSim\Game\HeroPower\Priest\LesserHeal
      * */
-    public function useOn(Entity $target) {
+    public function useOn(Entity $target = null) {
         // Call parent to update usage, etc
         parent::useOn($target);
 
